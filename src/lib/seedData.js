@@ -15,6 +15,7 @@ export function buildSeedDB() {
   return {
     settings: {
       logoDataUrl: null,
+      bannerDataUrl: null,
     },
 
     users: [
@@ -32,6 +33,8 @@ export function buildSeedDB() {
         phone: '011-1234-5678',
         ownerName: 'Juan Pérez',
         active: true,
+        logoDataUrl: null,
+        bannerDataUrl: null,
         createdAt: daysAgo(120),
       },
       {
@@ -42,6 +45,8 @@ export function buildSeedDB() {
         phone: '011-9876-5432',
         ownerName: 'María Gómez',
         active: true,
+        logoDataUrl: null,
+        bannerDataUrl: null,
         createdAt: daysAgo(60),
       },
     ],

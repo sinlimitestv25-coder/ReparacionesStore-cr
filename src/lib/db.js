@@ -1,9 +1,9 @@
 import { buildSeedDB } from './seedData'
 
-// v3: los usuarios (con usuario/contraseña) pasaron a ser datos reales de la
-// colección "users" en vez de una lista fija en el código, y se agregó
-// "settings" (logo). Al subir la versión se fuerza un reseed automático.
-const DB_KEY = 'reparacionestore_db_v3'
+// v4: cada local tiene su propio logo/banner (campos en "stores"), y el
+// "settings" global del Super Admin ahora también tiene banner. Al subir la
+// versión se fuerza un reseed automático.
+const DB_KEY = 'reparacionestore_db_v4'
 const SESSION_KEY = 'reparacionestore_session_v1'
 
 export function generateId(prefix = 'id') {

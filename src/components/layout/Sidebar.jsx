@@ -10,16 +10,19 @@ const NAV_ITEMS = [
   { to: '/proveedores', label: 'Proveedores', icon: Truck },
 ]
 
-export function Sidebar() {
+export function Sidebar({ logoDataUrl, storeName }) {
   return (
     <aside className="hidden w-56 shrink-0 flex-col border-r border-slate-200 bg-white sm:flex">
-      <div className="flex items-center gap-2 px-4 py-4">
-        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-600 text-white">
-          <Smartphone size={18} />
+      <div className="p-3">
+        <div className="flex aspect-square w-full items-center justify-center overflow-hidden rounded-xl border border-slate-200 bg-slate-50">
+          {logoDataUrl ? (
+            <img src={logoDataUrl} alt={storeName} className="h-full w-full object-contain p-3" />
+          ) : (
+            <Smartphone size={40} className="text-slate-300" />
+          )}
         </div>
-        <span className="text-sm font-semibold text-slate-800">reparacioneStore</span>
       </div>
-      <nav className="flex-1 space-y-0.5 px-2">
+      <nav className="flex-1 space-y-0.5 px-2 pt-4">
         {NAV_ITEMS.map(({ to, label, icon: Icon }) => (
           <NavLink
             key={to}

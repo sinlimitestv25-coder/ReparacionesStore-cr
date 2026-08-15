@@ -13,7 +13,7 @@ import { formatDate } from '../../lib/format'
 import { buildTenantUrl, describeTenantUrl } from '../../lib/tenant'
 import { StoreFormModal } from './StoreFormModal'
 import { ResetPasswordModal } from './ResetPasswordModal'
-import { SettingsModal } from './SettingsModal'
+import { SettingsModal } from '../../components/SettingsModal'
 
 export function StoresDashboard() {
   const { currentUser, logout, changePassword } = useAuth()
@@ -60,19 +60,25 @@ export function StoresDashboard() {
 
   return (
     <div className="min-h-screen bg-slate-50">
-      <header className="border-b border-slate-200 bg-white">
-        <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-6 sm:px-6">
+      <header
+        className="relative overflow-hidden border-b border-slate-200 bg-white bg-cover bg-center"
+        style={settings.bannerDataUrl ? { backgroundImage: `url(${settings.bannerDataUrl})` } : undefined}
+      >
+        {settings.bannerDataUrl && <div className="absolute inset-0 bg-slate-900/45" />}
+        <div className="relative mx-auto flex max-w-5xl items-center justify-between px-4 py-6 sm:px-6">
           <div className="flex items-center gap-3">
             {settings.logoDataUrl ? (
-              <img src={settings.logoDataUrl} alt="Logo" className="h-12 w-12 rounded-lg object-contain" />
+              <img src={settings.logoDataUrl} alt="Logo" className="h-12 w-12 rounded-lg bg-white object-contain p-1" />
             ) : (
               <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-brand-600 text-white">
                 <Smartphone size={22} />
               </div>
             )}
             <div>
-              <p className="text-base font-semibold text-slate-800">reparacioneStore · Panel General</p>
-              <p className="text-xs text-slate-400">{currentUser?.name}</p>
+              <p className={`text-base font-semibold ${settings.bannerDataUrl ? 'text-white' : 'text-slate-800'}`}>
+                reparacioneStore · Panel General
+              </p>
+              <p className={`text-xs ${settings.bannerDataUrl ? 'text-white/80' : 'text-slate-400'}`}>{currentUser?.name}</p>
             </div>
           </div>
           <div className="flex items-center gap-2">
@@ -80,7 +86,7 @@ export function StoresDashboard() {
               <Settings size={16} />
               Configuración
             </Button>
-            <Button variant="ghost" size="sm" onClick={handleLogout}>
+            <Button variant="ghost" size="sm" onClick={handleLogout} className={settings.bannerDataUrl ? 'text-white hover:bg-white/10' : ''}>
               <LogOut size={16} />
               Salir
             </Button>
@@ -191,7 +197,9 @@ export function StoresDashboard() {
         open={settingsOpen}
         onClose={() => setSettingsOpen(false)}
         logoDataUrl={settings.logoDataUrl}
+        bannerDataUrl={settings.bannerDataUrl}
         onLogoChange={(logoDataUrl) => updateSettings({ logoDataUrl })}
+        onBannerChange={(bannerDataUrl) => updateSettings({ bannerDataUrl })}
         onChangePassword={changePassword}
       />
     </div>

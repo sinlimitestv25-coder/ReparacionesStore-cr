@@ -1,5 +1,21 @@
 # Changelog
 
+## v0.3.0 — Logo y banner por local + Configuración para dueños
+
+- **Logo y banner separados**: Configuración ahora tiene dos imágenes
+  independientes (antes solo había una). El logo se muestra chico junto al
+  nombre; el banner es la imagen de fondo ancha del encabezado.
+- **Cada local tiene su propia marca**: el dueño de cada local ahora tiene su
+  propio botón "Configuración" (en el panel de su local) para cargar su
+  logo, su banner y cambiar su contraseña — independiente de la marca del
+  Super Admin.
+- **Sidebar del local**: logo grande (casi cuadrado, bordes redondeados,
+  ancho completo del panel lateral) arriba del menú de navegación.
+- **Encabezado del local**: ahora también es un banner con la imagen de
+  fondo del local, igual que el del Super Admin.
+- Corrección interna: el logo/banner de un local ahora se actualiza en
+  pantalla apenas se sube, sin hacer falta recargar la página.
+
 ## v0.2.0 — Login real (usuario/contraseña), Configuración y ajustes
 
 - **Login por usuario y contraseña**: los usuarios dejaron de ser una lista
