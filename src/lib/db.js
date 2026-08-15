@@ -1,9 +1,9 @@
 import { buildSeedDB } from './seedData'
 
-// v2: se agregó "slug" (subdominio) a los locales. Al subir la versión se
-// fuerza un reseed automático para que los datos viejos en el navegador no
-// queden sin ese campo.
-const DB_KEY = 'reparacionestore_db_v2'
+// v3: los usuarios (con usuario/contraseña) pasaron a ser datos reales de la
+// colección "users" en vez de una lista fija en el código, y se agregó
+// "settings" (logo). Al subir la versión se fuerza un reseed automático.
+const DB_KEY = 'reparacionestore_db_v3'
 const SESSION_KEY = 'reparacionestore_session_v1'
 
 export function generateId(prefix = 'id') {
@@ -69,7 +69,19 @@ export function removeWhere(collection, predicate) {
   saveDB(db)
 }
 
-// --- Sesión demo (sin backend, sin contraseñas reales) ---
+export function getSettings() {
+  const db = loadDB()
+  return db.settings || {}
+}
+
+export function updateSettings(patch) {
+  const db = loadDB()
+  db.settings = { ...db.settings, ...patch }
+  saveDB(db)
+  return db.settings
+}
+
+// --- Sesión demo ---
 
 export function saveSession(userId) {
   localStorage.setItem(SESSION_KEY, userId)

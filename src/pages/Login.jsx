@@ -1,27 +1,24 @@
 import { useEffect, useState } from 'react'
-import { Navigate, useNavigate } from 'react-router-dom'
-import { ShieldCheck, Store, Smartphone, RotateCcw } from 'lucide-react'
+import { Navigate } from 'react-router-dom'
+import { ShieldCheck, Store, RotateCcw, LogIn } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
 import { useTenant } from '../context/TenantContext'
-import { SEED_USERS } from '../lib/seedData'
 import { resetDB } from '../lib/db'
 import { Button } from '../components/ui/Button'
+import { Input } from '../components/ui/Input'
 
 export function Login() {
   const { currentUser, login, logout } = useAuth()
   const { isRootDomain, store } = useTenant()
-  const navigate = useNavigate()
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [error, setError] = useState('')
   const [resetMessage, setResetMessage] = useState('')
-
-  const visibleUsers = isRootDomain
-    ? SEED_USERS.filter((u) => u.role === 'super_admin')
-    : SEED_USERS.filter((u) => u.role === 'owner' && u.storeId === store?.id)
 
   // La sesión guardada solo es válida en el dominio al que corresponde (un
   // Super Admin en el dominio raíz, un dueño en el subdominio de SU local).
-  // Si no coincide (ej: quedó una sesión vieja de otro dominio en el mismo
-  // localStorage), hay que cerrarla acá en vez de redirigir a una ruta que no
-  // existe en este dominio — eso era lo que causaba el loop infinito.
+  // Si no coincide hay que cerrarla acá en vez de redirigir a una ruta que
+  // no existe en este dominio (eso causaba un loop infinito antes).
   const isValidSessionHere =
     !!currentUser &&
     (isRootDomain
@@ -30,6 +27,7 @@ export function Login() {
 
   useEffect(() => {
     if (currentUser && !isValidSessionHere) {
+      setError('Ese usuario no tiene acceso a este local.')
       logout()
     }
   }, [currentUser, isValidSessionHere, logout])
@@ -38,9 +36,14 @@ export function Login() {
     return <Navigate to={currentUser.role === 'super_admin' ? '/superadmin' : '/dashboard'} replace />
   }
 
-  const handleLogin = (user) => {
-    login(user.id)
-    navigate(user.role === 'super_admin' ? '/superadmin' : '/dashboard')
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    const result = login(username, password)
+    if (!result.success) {
+      setError(result.error)
+      return
+    }
+    setError('')
   }
 
   const handleReset = () => {
@@ -51,43 +54,26 @@ export function Login() {
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-slate-50 px-4">
-      <div className="w-full max-w-md">
+      <div className="w-full max-w-sm">
         <div className="mb-6 flex flex-col items-center gap-2 text-center">
           <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-brand-600 text-white">
-            <Smartphone size={24} />
+            {isRootDomain ? <ShieldCheck size={24} /> : <Store size={24} />}
           </div>
           <h1 className="text-xl font-semibold text-slate-800">{isRootDomain ? 'reparacioneStore' : store?.name}</h1>
           <p className="text-sm text-slate-500">
-            {isRootDomain
-              ? 'Panel general del administrador. Versión de demostración: no hace falta contraseña todavía.'
-              : 'Gestión de venta y reparación de celulares. Versión de demostración: no hace falta contraseña todavía.'}
+            {isRootDomain ? 'Panel general del administrador.' : 'Gestión de venta y reparación de celulares.'}
           </p>
         </div>
 
-        <div className="space-y-2.5 rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
-          {visibleUsers.length === 0 && (
-            <p className="py-2 text-center text-sm text-slate-400">
-              No hay ningún usuario configurado para este local todavía.
-            </p>
-          )}
-          {visibleUsers.map((user) => (
-            <button
-              key={user.id}
-              onClick={() => handleLogin(user)}
-              className="flex w-full items-center gap-3 rounded-lg border border-slate-200 px-3 py-3 text-left transition-colors hover:border-brand-300 hover:bg-brand-50"
-            >
-              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-slate-500">
-                {user.role === 'super_admin' ? <ShieldCheck size={18} /> : <Store size={18} />}
-              </div>
-              <div className="min-w-0">
-                <p className="truncate text-sm font-medium text-slate-800">{user.name}</p>
-                <p className="truncate text-xs text-slate-500">
-                  {user.role === 'super_admin' ? 'Super Admin · administra todos los locales' : `Dueño de local · ${user.email}`}
-                </p>
-              </div>
-            </button>
-          ))}
-        </div>
+        <form onSubmit={handleSubmit} className="space-y-3 rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+          <Input label="Usuario" value={username} onChange={(e) => setUsername(e.target.value)} autoFocus required />
+          <Input label="Contraseña" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+          {error && <p className="text-xs text-red-600">{error}</p>}
+          <Button type="submit" className="w-full">
+            <LogIn size={16} />
+            Ingresar
+          </Button>
+        </form>
 
         <div className="mt-4 flex flex-col items-center gap-1">
           <Button variant="ghost" size="sm" onClick={handleReset}>

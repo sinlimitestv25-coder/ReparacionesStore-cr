@@ -17,7 +17,7 @@ export function Repairs() {
   const { store } = useTenant()
   const storeId = store.id
   const { items: repairs, create, update, remove } = useCollection('repairs', (i) => i.storeId === storeId)
-  const { items: clients } = useCollection('clients', (i) => i.storeId === storeId)
+  const { items: clients, create: createClient } = useCollection('clients', (i) => i.storeId === storeId)
   const [modalOpen, setModalOpen] = useState(false)
   const [editing, setEditing] = useState(null)
   const [statusFilter, setStatusFilter] = useState('')
@@ -138,6 +138,7 @@ export function Repairs() {
         open={modalOpen}
         initialData={editing}
         clients={clients}
+        onCreateClient={(form) => createClient({ ...form, storeId, createdAt: new Date().toISOString() })}
         onClose={() => {
           setModalOpen(false)
           setEditing(null)

@@ -5,7 +5,7 @@ Sistema de gestión para venta y reparación de celulares. Multi-local
 por su propio subdominio a su propia gestión (stock, ventas, reparaciones,
 clientes, proveedores) sin ver los demás locales.
 
-**Versión actual: v0.1.1** — todo funciona con datos de demostración
+**Versión actual: v0.2.0** — todo funciona con datos de demostración
 guardados en el `localStorage` del navegador. Todavía no hay conexión a una
 base de datos real (Supabase se va a integrar en una versión posterior).
 
@@ -92,19 +92,32 @@ cada subdominio va a arrancar con su propia copia de los datos de
 demostración (la misma semilla), no la que hayas modificado desde otro
 subdominio. Se soluciona solo en cuanto conectemos una base de datos real.
 
-## Usuarios de demostración
+## Login y usuarios
 
-En la pantalla de login no hace falta contraseña todavía, se elige
-directamente con qué usuario entrar. Qué usuarios se ven depende del
-dominio:
+El login pide usuario y contraseña de verdad. **Importante**: como todavía
+no hay backend, esas credenciales se guardan **en texto plano** en el
+`localStorage` del navegador — sirve para probar el sistema, pero no es
+seguridad real. No uses ahí una contraseña que uses en otro lado. Esto se
+soluciona solo en cuanto conectemos Supabase (auth real, con cifrado).
 
-- **Dominio raíz** → Administrador General (Super Admin).
-- **Subdominio de "Local Centro"** → Juan Pérez (dueño).
-- **Subdominio de "Local Norte"** → María Gómez (dueño).
+Credenciales de los usuarios de demostración (semilla inicial):
 
-Los datos se guardan en el navegador. Si querés volver todo al estado
-inicial (en el dominio/subdominio que estés viendo), usá el botón
-"Restablecer datos de demostración" en el login.
+| Dominio | Usuario | Contraseña |
+|---|---|---|
+| Dominio raíz (Super Admin) | `admin` | `admin123` |
+| Subdominio de "Local Centro" | `juan` | `centro123` |
+| Subdominio de "Local Norte" | `maria` | `norte123` |
+
+- El Super Admin define usuario y contraseña de cada local al crearlo, y
+  puede restablecer la contraseña de cualquier local después (botón
+  "Contraseña" en cada tarjeta, por si el dueño se la olvida o queda
+  bloqueado).
+- El Super Admin puede cambiar su propia contraseña desde **Configuración**
+  en su panel.
+- Los datos se guardan en el navegador. Si querés volver todo al estado
+  inicial (en el dominio/subdominio que estés viendo, incluyendo estas
+  credenciales seed), usá el botón "Restablecer datos de demostración" en el
+  login.
 
 ## Estructura del proyecto
 

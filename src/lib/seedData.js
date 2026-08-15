@@ -1,5 +1,9 @@
 // Datos de demostración: todo vive en localStorage, no hay backend todavía.
 // Cuando se conecte Supabase, este archivo deja de usarse.
+//
+// OJO: las contraseñas de acá (y las que se creen desde la app) se guardan
+// en texto plano en el localStorage del navegador. Sirve para esta etapa de
+// demostración, pero no es seguridad real.
 
 const daysAgo = (n) => {
   const d = new Date()
@@ -7,14 +11,18 @@ const daysAgo = (n) => {
   return d.toISOString()
 }
 
-export const SEED_USERS = [
-  { id: 'u-admin', name: 'Administrador General', email: 'admin@reparacionestore.com', role: 'super_admin', storeId: null },
-  { id: 'u-owner-centro', name: 'Juan Pérez', email: 'juan@localcentro.com', role: 'owner', storeId: 'store-centro' },
-  { id: 'u-owner-norte', name: 'María Gómez', email: 'maria@localnorte.com', role: 'owner', storeId: 'store-norte' },
-]
-
 export function buildSeedDB() {
   return {
+    settings: {
+      logoDataUrl: null,
+    },
+
+    users: [
+      { id: 'u-admin', username: 'admin', password: 'admin123', name: 'Administrador General', role: 'super_admin', storeId: null },
+      { id: 'u-owner-centro', username: 'juan', password: 'centro123', name: 'Juan Pérez', role: 'owner', storeId: 'store-centro' },
+      { id: 'u-owner-norte', username: 'maria', password: 'norte123', name: 'María Gómez', role: 'owner', storeId: 'store-norte' },
+    ],
+
     stores: [
       {
         id: 'store-centro',
@@ -23,7 +31,6 @@ export function buildSeedDB() {
         address: 'Av. Siempre Viva 123, CABA',
         phone: '011-1234-5678',
         ownerName: 'Juan Pérez',
-        ownerEmail: 'juan@localcentro.com',
         active: true,
         createdAt: daysAgo(120),
       },
@@ -34,7 +41,6 @@ export function buildSeedDB() {
         address: 'Ruta 8 km 45, Pilar',
         phone: '011-9876-5432',
         ownerName: 'María Gómez',
-        ownerEmail: 'maria@localnorte.com',
         active: true,
         createdAt: daysAgo(60),
       },

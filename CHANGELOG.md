@@ -1,5 +1,23 @@
 # Changelog
 
+## v0.2.0 — Login real (usuario/contraseña), Configuración y ajustes
+
+- **Login por usuario y contraseña**: los usuarios dejaron de ser una lista
+  fija en el código y pasaron a ser datos reales del sistema. Al crear un
+  local, el Super Admin ahora define usuario y contraseña del dueño (ya no
+  un email). Recordá: por ahora se guardan sin cifrar en el navegador
+  (todavía no hay backend real) — ver el aviso en el README.
+- **Restablecer contraseña**: el Super Admin puede fijarle una contraseña
+  nueva al dueño de cualquier local desde su panel (botón "Contraseña" en
+  cada tarjeta de local).
+- **Panel Super Admin**: header más ancho/alto tipo banner, con logo propio
+  cargable (Configuración → Logo del sistema) y opción de cambiar la propia
+  contraseña del administrador.
+- **Reparaciones**: al cargar un nuevo ingreso ahora se puede crear un
+  cliente nuevo sin salir del formulario ("+ Nuevo cliente").
+- **Tarjetas de métricas**: ícono más grande y reubicado arriba a la derecha
+  en todas las tarjetas (dashboard de local y panel Super Admin).
+
 ## v0.1.1 — Corrección: loop infinito de redirecciones + config de Vercel
 
 - **Bug crítico corregido**: si quedaba una sesión guardada que no

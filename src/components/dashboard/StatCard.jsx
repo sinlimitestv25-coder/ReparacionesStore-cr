@@ -8,15 +8,15 @@ const COLORS = {
 
 export function StatCard({ icon: Icon, label, value, hint, color = 'blue' }) {
   return (
-    <div className="rounded-xl border border-slate-300 bg-white p-4 shadow">
-      <div className="flex items-center gap-3">
-        <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg ${COLORS[color]}`}>
-          {Icon && <Icon size={20} />}
+    <div className="relative rounded-xl border border-slate-300 bg-white p-4 shadow">
+      {Icon && (
+        <div className={`absolute right-4 top-4 flex h-12 w-12 items-center justify-center rounded-lg ${COLORS[color]}`}>
+          <Icon size={26} />
         </div>
-        <div className="min-w-0">
-          <p className="truncate text-xs font-medium text-slate-500">{label}</p>
-          <p className="truncate text-lg font-semibold text-slate-800">{value}</p>
-        </div>
+      )}
+      <div className="max-w-[calc(100%-3.25rem)]">
+        <p className="truncate text-xs font-medium text-slate-500">{label}</p>
+        <p className="mt-1 truncate text-xl font-semibold text-slate-800">{value}</p>
       </div>
       {hint && <p className="mt-2 text-xs text-slate-400">{hint}</p>}
     </div>

@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react'
+import { UserPlus } from 'lucide-react'
 import { Modal } from '../../components/ui/Modal'
 import { Input, Textarea } from '../../components/ui/Input'
 import { Select } from '../../components/ui/Select'
 import { Button } from '../../components/ui/Button'
 import { REPAIR_STATUSES } from '../../constants'
+import { ClientFormModal } from './ClientFormModal'
 
 const EMPTY_FORM = {
   clientId: '',
@@ -17,8 +19,9 @@ const EMPTY_FORM = {
   notes: '',
 }
 
-export function RepairFormModal({ open, onClose, onSubmit, initialData, clients }) {
+export function RepairFormModal({ open, onClose, onSubmit, initialData, clients, onCreateClient }) {
   const [form, setForm] = useState(EMPTY_FORM)
+  const [newClientOpen, setNewClientOpen] = useState(false)
 
   useEffect(() => {
     if (open) setForm(initialData ? { ...EMPTY_FORM, ...initialData } : EMPTY_FORM)
@@ -27,6 +30,12 @@ export function RepairFormModal({ open, onClose, onSubmit, initialData, clients 
   const clientOptions = [{ value: '', label: 'Seleccioná un cliente...' }, ...clients.map((c) => ({ value: c.id, label: c.name }))]
 
   const handleChange = (field) => (e) => setForm((f) => ({ ...f, [field]: e.target.value }))
+
+  const handleCreateClient = (clientForm) => {
+    const newClient = onCreateClient(clientForm)
+    setForm((f) => ({ ...f, clientId: newClient.id }))
+    setNewClientOpen(false)
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -55,7 +64,15 @@ export function RepairFormModal({ open, onClose, onSubmit, initialData, clients 
       }
     >
       <form id="repair-form" onSubmit={handleSubmit} className="space-y-3">
-        <Select label="Cliente" options={clientOptions} value={form.clientId} onChange={handleChange('clientId')} required />
+        <div className="flex items-end gap-2">
+          <div className="flex-1">
+            <Select label="Cliente" options={clientOptions} value={form.clientId} onChange={handleChange('clientId')} required />
+          </div>
+          <Button type="button" variant="secondary" size="md" onClick={() => setNewClientOpen(true)}>
+            <UserPlus size={16} />
+            Nuevo cliente
+          </Button>
+        </div>
         <div className="grid grid-cols-2 gap-3">
           <Input label="Marca del equipo" value={form.deviceBrand} onChange={handleChange('deviceBrand')} required />
           <Input label="Modelo" value={form.deviceModel} onChange={handleChange('deviceModel')} required />
@@ -71,6 +88,8 @@ export function RepairFormModal({ open, onClose, onSubmit, initialData, clients 
         </div>
         <Textarea label="Notas" value={form.notes} onChange={handleChange('notes')} rows={2} />
       </form>
+
+      <ClientFormModal open={newClientOpen} onClose={() => setNewClientOpen(false)} onSubmit={handleCreateClient} />
     </Modal>
   )
 }
