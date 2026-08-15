@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
 import { ShieldCheck, Store, Smartphone, RotateCcw } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
@@ -8,7 +8,7 @@ import { resetDB } from '../lib/db'
 import { Button } from '../components/ui/Button'
 
 export function Login() {
-  const { currentUser, login } = useAuth()
+  const { currentUser, login, logout } = useAuth()
   const { isRootDomain, store } = useTenant()
   const navigate = useNavigate()
   const [resetMessage, setResetMessage] = useState('')
@@ -17,7 +17,24 @@ export function Login() {
     ? SEED_USERS.filter((u) => u.role === 'super_admin')
     : SEED_USERS.filter((u) => u.role === 'owner' && u.storeId === store?.id)
 
-  if (currentUser) {
+  // La sesión guardada solo es válida en el dominio al que corresponde (un
+  // Super Admin en el dominio raíz, un dueño en el subdominio de SU local).
+  // Si no coincide (ej: quedó una sesión vieja de otro dominio en el mismo
+  // localStorage), hay que cerrarla acá en vez de redirigir a una ruta que no
+  // existe en este dominio — eso era lo que causaba el loop infinito.
+  const isValidSessionHere =
+    !!currentUser &&
+    (isRootDomain
+      ? currentUser.role === 'super_admin'
+      : currentUser.role === 'owner' && currentUser.storeId === store?.id)
+
+  useEffect(() => {
+    if (currentUser && !isValidSessionHere) {
+      logout()
+    }
+  }, [currentUser, isValidSessionHere, logout])
+
+  if (isValidSessionHere) {
     return <Navigate to={currentUser.role === 'super_admin' ? '/superadmin' : '/dashboard'} replace />
   }
 

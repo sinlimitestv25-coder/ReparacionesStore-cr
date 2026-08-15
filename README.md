@@ -5,7 +5,7 @@ Sistema de gestión para venta y reparación de celulares. Multi-local
 por su propio subdominio a su propia gestión (stock, ventas, reparaciones,
 clientes, proveedores) sin ver los demás locales.
 
-**Versión actual: v0.1.0** — todo funciona con datos de demostración
+**Versión actual: v0.1.1** — todo funciona con datos de demostración
 guardados en el `localStorage` del navegador. Todavía no hay conexión a una
 base de datos real (Supabase se va a integrar en una versión posterior).
 
@@ -32,11 +32,18 @@ subdominios más abajo).
 npm run build
 ```
 
-Genera la carpeta `dist/` lista para deployar en Netlify, Vercel o cualquier
-hosting de archivos estáticos. Configuración sugerida en Netlify:
+Genera la carpeta `dist/` lista para deployar. Este proyecto se deploya en
+**Vercel**. Configuración del proyecto en Vercel (Settings → General → Build
+& Development Settings):
 
-- Build command: `npm run build`
-- Publish directory: `dist`
+- Framework Preset: **Vite**
+- Build Command: `npm run build`
+- Output Directory: `dist`
+- Install Command: `npm install`
+
+El archivo `vercel.json` ya incluido en el proyecto se encarga de que las
+rutas internas (`/dashboard`, `/stock`, etc.) funcionen al entrar por link
+directo o al refrescar la página, en vez de tirar error 404.
 
 ## Cómo funciona el acceso por subdominio
 
@@ -48,12 +55,13 @@ hosting de archivos estáticos. Configuración sugerida en Netlify:
 Para que esto funcione con un dominio propio hacen falta dos pasos que son
 tuyos, fuera del código:
 
-1. En tu proveedor de DNS, agregar un registro wildcard `*` (o
-   `*.reparacionestore.com`) apuntando al mismo destino que usás para el
-   dominio raíz (en Netlify, normalmente un `CNAME` a tu-sitio.netlify.app).
-2. En la configuración de dominios de Netlify/Vercel, agregar el dominio
-   wildcard (`*.reparacionestore.com`) como dominio del sitio, además del
-   dominio raíz.
+1. En Vercel, ir al proyecto → **Settings → Domains** y agregar tu dominio
+   raíz (`reparacionestore.com`) y además el dominio wildcard
+   `*.reparacionestore.com`. Vercel te va a mostrar qué registros DNS tenés
+   que cargar (normalmente un `A`/`ALIAS` para el dominio raíz y un `CNAME`
+   apuntando a `cname.vercel-dns.com` para el wildcard).
+2. Cargar esos registros en tu proveedor de DNS (donde compraste el
+   dominio). Puede tardar un rato en propagarse.
 
 Cada local define su subdominio (campo "Subdominio" al crearlo desde el
 panel Super Admin) — por defecto se genera solo a partir del nombre, pero se
@@ -65,11 +73,11 @@ Mientras no tengas el dominio propio armado, cualquier URL del sitio acepta
 `?tienda=<subdominio>` para simular estar en ese local, por ejemplo:
 
 ```
-https://tu-sitio.netlify.app/?tienda=centro
-https://tu-sitio.netlify.app/?tienda=norte
+https://tu-sitio.vercel.app/?tienda=centro
+https://tu-sitio.vercel.app/?tienda=norte
 ```
 
-Y sin ese parámetro, `https://tu-sitio.netlify.app` se comporta como el
+Y sin ese parámetro, `https://tu-sitio.vercel.app` se comporta como el
 dominio raíz (panel Super Admin). El botón "Ingresar" del panel Super Admin
 ya arma el link correcto automáticamente, sea con subdominio real o con este
 atajo, según lo que detecte disponible.

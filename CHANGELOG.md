@@ -1,5 +1,20 @@
 # Changelog
 
+## v0.1.1 — Corrección: loop infinito de redirecciones + config de Vercel
+
+- **Bug crítico corregido**: si quedaba una sesión guardada que no
+  correspondía al dominio actual (ej. una sesión de dueño de local mientras
+  se navega el dominio raíz), el login intentaba redirigir a una ruta que no
+  existe en ese dominio, entraba en loop infinito con la ruta comodín y
+  colgaba la pestaña ("Throttling navigation..." en la consola). Ahora, si
+  la sesión no corresponde al dominio actual, se cierra automáticamente en
+  vez de redirigir mal.
+- Se agregó `vercel.json` con el rewrite necesario para que las rutas
+  internas (`/dashboard`, `/stock`, etc.) no den 404 en Vercel al entrar por
+  link directo o al refrescar.
+- Documentación de deploy actualizada para Vercel (antes tenía pasos
+  pensados para Netlify).
+
 ## v0.1.0 — Acceso por subdominio + ajustes de estética
 
 - Cada local ahora se accede por su propio subdominio (ej: `centro.tudominio.com`),
