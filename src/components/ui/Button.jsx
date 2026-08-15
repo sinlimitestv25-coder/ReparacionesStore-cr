@@ -10,11 +10,12 @@ const SIZES = {
   md: 'px-3.5 py-2 text-sm',
 }
 
-export function Button({ variant = 'primary', size = 'md', className = '', ...props }) {
-  return (
-    <button
-      className={`inline-flex items-center justify-center gap-1.5 rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 ${VARIANTS[variant]} ${SIZES[size]} ${className}`}
-      {...props}
-    />
-  )
+export function Button({ variant = 'primary', size = 'md', className = '', href, ...props }) {
+  const classes = `inline-flex items-center justify-center gap-1.5 rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 ${VARIANTS[variant]} ${SIZES[size]} ${className}`
+
+  if (href) {
+    return <a href={href} className={classes} {...props} />
+  }
+
+  return <button className={classes} {...props} />
 }

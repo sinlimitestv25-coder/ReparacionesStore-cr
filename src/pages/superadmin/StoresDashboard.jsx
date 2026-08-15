@@ -9,10 +9,11 @@ import { Badge } from '../../components/ui/Badge'
 import { EmptyState } from '../../components/ui/EmptyState'
 import { StatCard } from '../../components/dashboard/StatCard'
 import { formatDate } from '../../lib/format'
+import { buildTenantUrl, describeTenantUrl } from '../../lib/tenant'
 import { StoreFormModal } from './StoreFormModal'
 
 export function StoresDashboard() {
-  const { currentUser, enterStore, logout } = useAuth()
+  const { currentUser, logout } = useAuth()
   const navigate = useNavigate()
   const { items: stores, create, update } = useCollection('stores')
   const { items: stock } = useCollection('stock')
@@ -24,17 +25,20 @@ export function StoresDashboard() {
   }, {})
 
   const handleCreateStore = (form) => {
+    if (!form.slug) {
+      window.alert('El local necesita un subdominio.')
+      return
+    }
+    if (stores.some((s) => s.slug === form.slug)) {
+      window.alert(`Ya hay un local usando el subdominio "${form.slug}". Elegí otro.`)
+      return
+    }
     create({ ...form, active: true, createdAt: new Date().toISOString() })
     setModalOpen(false)
   }
 
   const handleToggleActive = (store) => {
     update(store.id, { active: !store.active })
-  }
-
-  const handleEnterStore = (store) => {
-    enterStore(store.id)
-    navigate(`/tienda/${store.id}/dashboard`)
   }
 
   const handleLogout = () => {
@@ -63,7 +67,7 @@ export function StoresDashboard() {
       </header>
 
       <main className="mx-auto max-w-5xl space-y-6 p-4 sm:p-6">
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
           <StatCard icon={StoreIcon} label="Locales totales" value={stores.length} color="blue" />
           <StatCard icon={Power} label="Locales activos" value={activeStores} color="emerald" />
           <StatCard icon={StoreIcon} label="Locales inactivos" value={stores.length - activeStores} color="amber" />
@@ -91,9 +95,9 @@ export function StoresDashboard() {
               }
             />
           ) : (
-            <div className="grid gap-3 sm:grid-cols-2">
+            <div className="grid gap-4 sm:grid-cols-2">
               {stores.map((store) => (
-                <div key={store.id} className="rounded-lg border border-slate-200 p-4">
+                <div key={store.id} className="rounded-lg border border-slate-300 p-4 shadow-sm">
                   <div className="flex items-start justify-between gap-2">
                     <div className="min-w-0">
                       <p className="truncate text-sm font-semibold text-slate-800">{store.name}</p>
@@ -103,6 +107,10 @@ export function StoresDashboard() {
                   </div>
 
                   <dl className="mt-3 space-y-1 text-xs text-slate-500">
+                    <div className="flex justify-between">
+                      <dt>Entra por</dt>
+                      <dd className="truncate text-slate-700">{describeTenantUrl(store.slug)}</dd>
+                    </div>
                     <div className="flex justify-between">
                       <dt>Dueño</dt>
                       <dd className="text-slate-700">{store.ownerName}</dd>
@@ -122,7 +130,7 @@ export function StoresDashboard() {
                   </dl>
 
                   <div className="mt-3 flex gap-2">
-                    <Button size="sm" onClick={() => handleEnterStore(store)} className="flex-1">
+                    <Button size="sm" href={buildTenantUrl(store.slug)} className="flex-1">
                       <LogIn size={14} />
                       Ingresar
                     </Button>

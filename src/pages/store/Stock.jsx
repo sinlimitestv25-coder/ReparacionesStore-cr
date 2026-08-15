@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import { useParams } from 'react-router-dom'
 import { Plus, Pencil, Trash2, Boxes, Search } from 'lucide-react'
 import { useCollection } from '../../hooks/useCollection'
+import { useTenant } from '../../context/TenantContext'
 import { Card } from '../../components/ui/Card'
 import { Button } from '../../components/ui/Button'
 import { Badge } from '../../components/ui/Badge'
@@ -16,7 +16,8 @@ import { StockFormModal } from './StockFormModal'
 const TYPE_FILTER_OPTIONS = [{ value: '', label: 'Todos los tipos' }, ...PRODUCT_TYPES]
 
 export function Stock() {
-  const { storeId } = useParams()
+  const { store } = useTenant()
+  const storeId = store.id
   const { items: stock, create, update, remove } = useCollection('stock', (i) => i.storeId === storeId)
   const [modalOpen, setModalOpen] = useState(false)
   const [editing, setEditing] = useState(null)

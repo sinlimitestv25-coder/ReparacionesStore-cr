@@ -1,6 +1,6 @@
-import { useParams } from 'react-router-dom'
-import { Boxes, TrendingUp, Wallet, Wrench, AlertTriangle, ShoppingCart } from 'lucide-react'
+import { TrendingUp, Wallet, Wrench, AlertTriangle, ShoppingCart } from 'lucide-react'
 import { useCollection } from '../../hooks/useCollection'
+import { useTenant } from '../../context/TenantContext'
 import { Card } from '../../components/ui/Card'
 import { Badge } from '../../components/ui/Badge'
 import { Table, Thead, Tbody, Th, Td } from '../../components/ui/Table'
@@ -15,7 +15,8 @@ function isSameMonth(isoString) {
 }
 
 export function Dashboard() {
-  const { storeId } = useParams()
+  const { store } = useTenant()
+  const storeId = store.id
   const { items: stock } = useCollection('stock', (i) => i.storeId === storeId)
   const { items: sales } = useCollection('sales', (i) => i.storeId === storeId)
   const { items: repairs } = useCollection('repairs', (i) => i.storeId === storeId)
@@ -44,7 +45,7 @@ export function Dashboard() {
         <p className="text-sm text-slate-500">Resumen general del local.</p>
       </div>
 
-      <div className="grid grid-cols-2 gap-3 lg:grid-cols-3">
+      <div className="grid grid-cols-2 gap-4 lg:grid-cols-3">
         <StatCard icon={Wallet} label="Valor de stock (costo)" value={formatCurrency(stockCostValue)} color="blue" />
         <StatCard icon={TrendingUp} label="Valor de stock (venta)" value={formatCurrency(stockSaleValue)} color="emerald" />
         <StatCard icon={ShoppingCart} label="Ventas del mes" value={formatCurrency(monthRevenue)} hint={`${monthSales.length} ventas`} color="blue" />

@@ -8,7 +8,7 @@ const COLORS = {
 
 export function StatCard({ icon: Icon, label, value, hint, color = 'blue' }) {
   return (
-    <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+    <div className="rounded-xl border border-slate-300 bg-white p-4 shadow">
       <div className="flex items-center gap-3">
         <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg ${COLORS[color]}`}>
           {Icon && <Icon size={20} />}

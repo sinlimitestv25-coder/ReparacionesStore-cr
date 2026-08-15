@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import { useParams } from 'react-router-dom'
 import { Plus, Pencil, Trash2, Wrench } from 'lucide-react'
 import { useCollection } from '../../hooks/useCollection'
+import { useTenant } from '../../context/TenantContext'
 import { Card } from '../../components/ui/Card'
 import { Button } from '../../components/ui/Button'
 import { Select } from '../../components/ui/Select'
@@ -14,7 +14,8 @@ import { RepairFormModal } from './RepairFormModal'
 const STATUS_FILTER_OPTIONS = [{ value: '', label: 'Todos los estados' }, ...REPAIR_STATUSES]
 
 export function Repairs() {
-  const { storeId } = useParams()
+  const { store } = useTenant()
+  const storeId = store.id
   const { items: repairs, create, update, remove } = useCollection('repairs', (i) => i.storeId === storeId)
   const { items: clients } = useCollection('clients', (i) => i.storeId === storeId)
   const [modalOpen, setModalOpen] = useState(false)

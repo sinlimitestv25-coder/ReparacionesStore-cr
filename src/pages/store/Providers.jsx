@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import { useParams } from 'react-router-dom'
 import { Plus, Pencil, Trash2, Truck, Search } from 'lucide-react'
 import { useCollection } from '../../hooks/useCollection'
+import { useTenant } from '../../context/TenantContext'
 import { Card } from '../../components/ui/Card'
 import { Button } from '../../components/ui/Button'
 import { Input } from '../../components/ui/Input'
@@ -10,7 +10,8 @@ import { Table, Thead, Tbody, Th, Td } from '../../components/ui/Table'
 import { ProviderFormModal } from './ProviderFormModal'
 
 export function Providers() {
-  const { storeId } = useParams()
+  const { store } = useTenant()
+  const storeId = store.id
   const { items: providers, create, update, remove } = useCollection('providers', (i) => i.storeId === storeId)
   const [modalOpen, setModalOpen] = useState(false)
   const [editing, setEditing] = useState(null)

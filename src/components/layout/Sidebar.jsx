@@ -2,15 +2,15 @@ import { NavLink } from 'react-router-dom'
 import { LayoutDashboard, Boxes, ShoppingCart, Wrench, Users, Truck, Smartphone } from 'lucide-react'
 
 const NAV_ITEMS = [
-  { to: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
-  { to: 'stock', label: 'Stock', icon: Boxes },
-  { to: 'ventas', label: 'Ventas', icon: ShoppingCart },
-  { to: 'reparaciones', label: 'Reparaciones', icon: Wrench },
-  { to: 'clientes', label: 'Clientes', icon: Users },
-  { to: 'proveedores', label: 'Proveedores', icon: Truck },
+  { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
+  { to: '/stock', label: 'Stock', icon: Boxes },
+  { to: '/ventas', label: 'Ventas', icon: ShoppingCart },
+  { to: '/reparaciones', label: 'Reparaciones', icon: Wrench },
+  { to: '/clientes', label: 'Clientes', icon: Users },
+  { to: '/proveedores', label: 'Proveedores', icon: Truck },
 ]
 
-export function Sidebar({ storeId }) {
+export function Sidebar() {
   return (
     <aside className="hidden w-56 shrink-0 flex-col border-r border-slate-200 bg-white sm:flex">
       <div className="flex items-center gap-2 px-4 py-4">
@@ -23,7 +23,7 @@ export function Sidebar({ storeId }) {
         {NAV_ITEMS.map(({ to, label, icon: Icon }) => (
           <NavLink
             key={to}
-            to={`/tienda/${storeId}/${to}`}
+            to={to}
             className={({ isActive }) =>
               `flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
                 isActive ? 'bg-brand-50 text-brand-700' : 'text-slate-600 hover:bg-slate-50'

@@ -1,6 +1,9 @@
 import { buildSeedDB } from './seedData'
 
-const DB_KEY = 'reparacionestore_db_v1'
+// v2: se agregó "slug" (subdominio) a los locales. Al subir la versión se
+// fuerza un reseed automático para que los datos viejos en el navegador no
+// queden sin ese campo.
+const DB_KEY = 'reparacionestore_db_v2'
 const SESSION_KEY = 'reparacionestore_session_v1'
 
 export function generateId(prefix = 'id') {

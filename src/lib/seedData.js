@@ -18,6 +18,7 @@ export function buildSeedDB() {
     stores: [
       {
         id: 'store-centro',
+        slug: 'centro',
         name: 'Local Centro',
         address: 'Av. Siempre Viva 123, CABA',
         phone: '011-1234-5678',
@@ -28,6 +29,7 @@ export function buildSeedDB() {
       },
       {
         id: 'store-norte',
+        slug: 'norte',
         name: 'Local Norte',
         address: 'Ruta 8 km 45, Pilar',
         phone: '011-9876-5432',

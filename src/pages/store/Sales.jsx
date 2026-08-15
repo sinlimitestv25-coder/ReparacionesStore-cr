@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import { useParams } from 'react-router-dom'
 import { Plus, ShoppingCart } from 'lucide-react'
 import { useCollection } from '../../hooks/useCollection'
+import { useTenant } from '../../context/TenantContext'
 import { updateItem } from '../../lib/db'
 import { Card } from '../../components/ui/Card'
 import { Button } from '../../components/ui/Button'
@@ -13,7 +13,8 @@ import { PAYMENT_METHODS } from '../../constants'
 import { SaleFormModal } from './SaleFormModal'
 
 export function Sales() {
-  const { storeId } = useParams()
+  const { store } = useTenant()
+  const storeId = store.id
   const { items: sales, create, reload: reloadSales } = useCollection('sales', (i) => i.storeId === storeId)
   const { items: stock, reload: reloadStock } = useCollection('stock', (i) => i.storeId === storeId)
   const { items: clients } = useCollection('clients', (i) => i.storeId === storeId)
