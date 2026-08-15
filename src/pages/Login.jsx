@@ -56,7 +56,7 @@ export function Login() {
   const title = isRootDomain ? 'reparacioneStore' : store?.name
   const tagline = isRootDomain
     ? 'El panel para administrar todos tus locales de venta y reparación de celulares, en un solo lugar.'
-    : 'Gestión inteligente de stock, ventas y reparaciones para tu local.'
+    : 'Tu nueva forma de gestionar el negocio: stock, ventas y reparaciones, todo en un solo lugar.'
 
   return (
     <div className="flex min-h-screen bg-slate-50">

@@ -1,5 +1,20 @@
 # Changelog
 
+## v0.5.0 — Sidebar para el Super Admin, banners más grandes, panel estirado
+
+- **Panel Super Admin con sidebar**, igual que el de cada local: logo grande
+  arriba, y abajo "Nuevo local" y "Configuración" (antes estaban sueltos en
+  el encabezado).
+- **Banner mucho más alto**, tanto en el panel de cada local como en el del
+  Super Admin — ahora comparten el mismo componente de encabezado, así
+  quedan simétricos.
+- **Panel Super Admin estirado**: se sacó el límite de ancho centrado, el
+  contenido ahora usa todo el espacio disponible (las tarjetas de locales se
+  acomodan en más columnas en pantallas grandes).
+- **Login**: el lado de los locales ya no habla de "panel" ni "local" — el
+  mensaje ahora está pensado para el dueño del negocio, que es quien más lo
+  va a ver.
+
 ## v0.4.0 — Login con pantalla dividida + ajustes de imágenes y layout
 
 - **Login rediseñado**: pantalla dividida a la mitad. Un lado tiene una

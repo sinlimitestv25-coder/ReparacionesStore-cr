@@ -5,7 +5,7 @@ Sistema de gestión para venta y reparación de celulares. Multi-local
 por su propio subdominio a su propia gestión (stock, ventas, reparaciones,
 clientes, proveedores) sin ver los demás locales.
 
-**Versión actual: v0.4.0** — todo funciona con datos de demostración
+**Versión actual: v0.5.0** — todo funciona con datos de demostración
 guardados en el `localStorage` del navegador. Todavía no hay conexión a una
 base de datos real (Supabase se va a integrar en una versión posterior).
 
