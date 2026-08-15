@@ -21,3 +21,11 @@ export const PAYMENT_METHODS = [
   { value: 'tarjeta', label: 'Tarjeta' },
   { value: 'transferencia', label: 'Transferencia' },
 ]
+
+export const DEFAULT_REPAIR_TERMS = `El cliente dispone de 30 días corridos desde la fecha de este recibo para retirar el equipo. Pasado ese plazo, el local no se responsabiliza por su guarda ni conservación.
+
+El diagnóstico inicial es una estimación; el presupuesto final puede variar una vez abierto el equipo, y se le va a informar antes de continuar con la reparación.
+
+No nos responsabilizamos por daños preexistentes no declarados en este recibo (golpes, quiebres, humedad, pantalla trizada, etc.) ni por la pérdida de datos guardados en el equipo. Se recomienda hacer una copia de seguridad antes de dejarlo.
+
+La garantía de la reparación cubre exclusivamente el trabajo y los repuestos provistos por este local, por 90 días desde la entrega, y no cubre golpes, humedad ni intervención de terceros posteriores a la entrega.`

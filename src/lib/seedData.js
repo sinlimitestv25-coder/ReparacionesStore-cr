@@ -35,6 +35,7 @@ export function buildSeedDB() {
         active: true,
         logoDataUrl: null,
         bannerDataUrl: null,
+        repairTerms: null,
         createdAt: daysAgo(120),
       },
       {
@@ -47,6 +48,7 @@ export function buildSeedDB() {
         active: true,
         logoDataUrl: null,
         bannerDataUrl: null,
+        repairTerms: null,
         createdAt: daysAgo(60),
       },
     ],

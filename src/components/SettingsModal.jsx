@@ -1,9 +1,10 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Image as ImageIcon, Trash2, Loader2 } from 'lucide-react'
 import { Modal } from './ui/Modal'
-import { Input } from './ui/Input'
+import { Input, Textarea } from './ui/Input'
 import { Button } from './ui/Button'
 import { compressImage } from '../lib/image'
+import { DEFAULT_REPAIR_TERMS } from '../constants'
 
 const MAX_UPLOAD_BYTES = 4 * 1024 * 1024 // archivo que aceptamos del selector, antes de comprimir
 
@@ -73,18 +74,44 @@ function ImageUploadRow({ label, hint, shape, maxDimension, dataUrl, onChange })
   )
 }
 
-export function SettingsModal({ open, onClose, logoDataUrl, bannerDataUrl, onLogoChange, onBannerChange, onChangePassword }) {
+export function SettingsModal({
+  open,
+  onClose,
+  logoDataUrl,
+  bannerDataUrl,
+  onLogoChange,
+  onBannerChange,
+  repairTerms,
+  onRepairTermsChange,
+  onChangePassword,
+}) {
   const [newPassword, setNewPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [passwordError, setPasswordError] = useState('')
   const [passwordMessage, setPasswordMessage] = useState('')
+
+  const [termsDraft, setTermsDraft] = useState('')
+  const [termsMessage, setTermsMessage] = useState('')
+
+  useEffect(() => {
+    if (open) setTermsDraft(repairTerms || DEFAULT_REPAIR_TERMS)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open])
 
   const handleClose = () => {
     setNewPassword('')
     setConfirmPassword('')
     setPasswordError('')
     setPasswordMessage('')
+    setTermsMessage('')
     onClose()
+  }
+
+  const handleTermsSubmit = (e) => {
+    e.preventDefault()
+    onRepairTermsChange(termsDraft)
+    setTermsMessage('Política guardada.')
+    setTimeout(() => setTermsMessage(''), 2500)
   }
 
   const handlePasswordSubmit = (e) => {
@@ -125,6 +152,21 @@ export function SettingsModal({ open, onClose, logoDataUrl, bannerDataUrl, onLog
           dataUrl={bannerDataUrl}
           onChange={onBannerChange}
         />
+
+        {onRepairTermsChange && (
+          <form onSubmit={handleTermsSubmit} className="space-y-2 border-t border-slate-100 pt-4">
+            <p className="text-sm font-semibold text-slate-800">Política de reparaciones</p>
+            <p className="text-xs text-slate-400">
+              Este texto aparece en el recibo que le das al cliente cuando dejás su equipo (plazos, garantía, daños
+              preexistentes, etc.). Editalo como te sirva a vos.
+            </p>
+            <Textarea value={termsDraft} onChange={(e) => setTermsDraft(e.target.value)} rows={7} className="text-xs" />
+            {termsMessage && <p className="text-xs text-emerald-600">{termsMessage}</p>}
+            <Button type="submit" size="sm">
+              Guardar política
+            </Button>
+          </form>
+        )}
 
         <form onSubmit={handlePasswordSubmit} className="space-y-3 border-t border-slate-100 pt-4">
           <p className="text-sm font-semibold text-slate-800">Cambiar mi contraseña</p>

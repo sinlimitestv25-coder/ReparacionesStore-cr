@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Plus, Pencil, Trash2, Wrench } from 'lucide-react'
+import { Plus, Pencil, Trash2, Wrench, FileText } from 'lucide-react'
 import { useCollection } from '../../hooks/useCollection'
 import { useTenant } from '../../context/TenantContext'
 import { Card } from '../../components/ui/Card'
@@ -10,6 +10,7 @@ import { Table, Thead, Tbody, Th, Td } from '../../components/ui/Table'
 import { formatCurrency, formatDate } from '../../lib/format'
 import { REPAIR_STATUSES } from '../../constants'
 import { RepairFormModal } from './RepairFormModal'
+import { ReceiptModal } from './ReceiptModal'
 
 const STATUS_FILTER_OPTIONS = [{ value: '', label: 'Todos los estados' }, ...REPAIR_STATUSES]
 
@@ -21,8 +22,10 @@ export function Repairs() {
   const [modalOpen, setModalOpen] = useState(false)
   const [editing, setEditing] = useState(null)
   const [statusFilter, setStatusFilter] = useState('')
+  const [receiptRepair, setReceiptRepair] = useState(null)
 
-  const clientName = (id) => clients.find((c) => c.id === id)?.name || 'Cliente eliminado'
+  const clientOf = (id) => clients.find((c) => c.id === id)
+  const clientName = (id) => clientOf(id)?.name || 'Cliente eliminado'
 
   const filtered = statusFilter ? repairs.filter((r) => r.status === statusFilter) : repairs
   const sorted = [...filtered].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
@@ -119,6 +122,13 @@ export function Repairs() {
                   <Td className="text-right">{formatCurrency(repair.finalCost ?? repair.estimatedCost)}</Td>
                   <Td className="text-right">
                     <div className="flex justify-end gap-1">
+                      <button
+                        onClick={() => setReceiptRepair(repair)}
+                        title="Recibo"
+                        className="rounded-md p-1.5 text-slate-400 hover:bg-slate-100 hover:text-slate-600"
+                      >
+                        <FileText size={15} />
+                      </button>
                       <button onClick={() => handleEdit(repair)} className="rounded-md p-1.5 text-slate-400 hover:bg-slate-100 hover:text-slate-600">
                         <Pencil size={15} />
                       </button>
@@ -144,6 +154,14 @@ export function Repairs() {
           setEditing(null)
         }}
         onSubmit={handleSubmit}
+      />
+
+      <ReceiptModal
+        open={!!receiptRepair}
+        onClose={() => setReceiptRepair(null)}
+        repair={receiptRepair}
+        client={receiptRepair ? clientOf(receiptRepair.clientId) : null}
+        store={store}
       />
     </div>
   )

@@ -5,7 +5,7 @@ Sistema de gestión para venta y reparación de celulares. Multi-local
 por su propio subdominio a su propia gestión (stock, ventas, reparaciones,
 clientes, proveedores) sin ver los demás locales.
 
-**Versión actual: v0.5.0** — todo funciona con datos de demostración
+**Versión actual: v0.6.0** — todo funciona con datos de demostración
 guardados en el `localStorage` del navegador. Todavía no hay conexión a una
 base de datos real (Supabase se va a integrar en una versión posterior).
 
@@ -124,6 +124,24 @@ Credenciales de los usuarios de demostración (semilla inicial):
   inicial (en el dominio/subdominio que estés viendo, incluyendo estas
   credenciales seed), usá el botón "Restablecer datos de demostración" en el
   login.
+
+## Recibo de ingreso (reparaciones)
+
+Cada reparación tiene un botón "Recibo" (ícono de hoja) que arma un PDF con
+los datos del equipo, el cliente, el costo estimado y la **política del
+local** (plazos, garantía, daños preexistentes). Esa política se edita por
+local desde Configuración → "Política de reparaciones", con un texto
+sugerido por defecto que podés cambiar como quieras.
+
+Desde ese mismo recibo podés:
+
+- **Descargar** el PDF.
+- **Imprimir** directo desde el navegador.
+- **Abrir WhatsApp** con el número que cargues y un mensaje ya escrito (el
+  archivo hay que adjuntarlo a mano — WhatsApp Web no deja adjuntar
+  archivos automáticamente desde un link).
+- **Compartir** (solo aparece si el navegador lo soporta, típicamente en
+  celulares): manda el PDF directo a la app que elijas, WhatsApp incluido.
 
 ## Estructura del proyecto
 

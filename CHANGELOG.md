@@ -1,5 +1,20 @@
 # Changelog
 
+## v0.6.0 — Recibo de ingreso en PDF, con política configurable
+
+- **Nueva dependencia**: `jspdf`. Hace falta correr `npm install` de nuevo
+  después de bajar esta versión.
+- **Política de reparaciones**: cada local tiene su propio texto (plazos,
+  garantía, daños preexistentes, etc.), editable desde Configuración, con un
+  texto sugerido por defecto.
+- **Recibo de ingreso en PDF**: botón nuevo en cada reparación (ícono de
+  hoja) que arma un recibo con los datos del equipo, el cliente, el costo
+  estimado y la política del local.
+- Desde el recibo se puede: descargar el PDF, imprimirlo directo, abrir
+  WhatsApp con el número y un mensaje ya redactado, o (en celulares)
+  compartirlo directo con la app que elijas usando el botón "Compartir" del
+  navegador.
+
 ## v0.5.0 — Sidebar para el Super Admin, banners más grandes, panel estirado
 
 - **Panel Super Admin con sidebar**, igual que el de cada local: logo grande
