@@ -5,7 +5,7 @@ Sistema de gestión para venta y reparación de celulares. Multi-local
 por su propio subdominio a su propia gestión (stock, ventas, reparaciones,
 clientes, proveedores) sin ver los demás locales.
 
-**Versión actual: v0.3.0** — todo funciona con datos de demostración
+**Versión actual: v0.4.0** — todo funciona con datos de demostración
 guardados en el `localStorage` del navegador. Todavía no hay conexión a una
 base de datos real (Supabase se va a integrar en una versión posterior).
 
@@ -112,11 +112,14 @@ Credenciales de los usuarios de demostración (semilla inicial):
   puede restablecer la contraseña de cualquier local después (botón
   "Contraseña" en cada tarjeta, por si el dueño se la olvida o queda
   bloqueado).
-- Tanto el Super Admin como el dueño de cada local tienen su propio botón
-  **Configuración**, donde pueden cargar un **logo** (chico, junto al
-  nombre) y un **banner** (imagen ancha de fondo del encabezado) propios, y
-  cambiar su contraseña. La marca de un local es independiente de la del
-  Super Admin y de la de los demás locales.
+- Tanto el Super Admin (en su header) como el dueño de cada local (en
+  **Configuración**, dentro del menú lateral) pueden cargar un **logo**
+  (chico, junto al nombre, y grande en el menú lateral del local) y un
+  **banner** (imagen ancha de fondo del encabezado) propios, y cambiar su
+  contraseña. La marca de un local es independiente de la del Super Admin y
+  de la de los demás locales. Se aceptan imágenes de hasta 4 MB: se
+  redimensionan y comprimen automáticamente en el navegador antes de
+  guardarse, para no llenar el almacenamiento local.
 - Los datos se guardan en el navegador. Si querés volver todo al estado
   inicial (en el dominio/subdominio que estés viendo, incluyendo estas
   credenciales seed), usá el botón "Restablecer datos de demostración" en el

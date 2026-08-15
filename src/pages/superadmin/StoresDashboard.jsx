@@ -65,7 +65,7 @@ export function StoresDashboard() {
         style={settings.bannerDataUrl ? { backgroundImage: `url(${settings.bannerDataUrl})` } : undefined}
       >
         {settings.bannerDataUrl && <div className="absolute inset-0 bg-slate-900/45" />}
-        <div className="relative mx-auto flex max-w-5xl items-center justify-between px-4 py-6 sm:px-6">
+        <div className="relative mx-auto flex max-w-5xl items-center justify-between px-4 py-12 sm:px-6">
           <div className="flex items-center gap-3">
             {settings.logoDataUrl ? (
               <img src={settings.logoDataUrl} alt="Logo" className="h-12 w-12 rounded-lg bg-white object-contain p-1" />
@@ -86,8 +86,13 @@ export function StoresDashboard() {
               <Settings size={16} />
               Configuración
             </Button>
-            <Button variant="ghost" size="sm" onClick={handleLogout} className={settings.bannerDataUrl ? 'text-white hover:bg-white/10' : ''}>
-              <LogOut size={16} />
+            <Button
+              variant="secondary"
+              size="md"
+              onClick={handleLogout}
+              className={settings.bannerDataUrl ? 'border-white/40 bg-white/10 text-white hover:bg-white/20' : ''}
+            >
+              <LogOut size={18} />
               Salir
             </Button>
           </div>

@@ -19,15 +19,9 @@ export function AppLayout() {
 
   return (
     <div className="flex h-screen bg-slate-50">
-      <Sidebar logoDataUrl={store.logoDataUrl} storeName={store.name} />
+      <Sidebar logoDataUrl={store.logoDataUrl} storeName={store.name} onOpenSettings={() => setSettingsOpen(true)} />
       <div className="flex min-w-0 flex-1 flex-col">
-        <Topbar
-          storeName={store.name}
-          user={currentUser}
-          bannerDataUrl={store.bannerDataUrl}
-          onLogout={handleLogout}
-          onOpenSettings={() => setSettingsOpen(true)}
-        />
+        <Topbar storeName={store.name} user={currentUser} bannerDataUrl={store.bannerDataUrl} onLogout={handleLogout} />
         <main className="flex-1 overflow-y-auto p-4 sm:p-6">
           <Outlet />
         </main>

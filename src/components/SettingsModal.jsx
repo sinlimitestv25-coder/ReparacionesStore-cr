@@ -1,30 +1,38 @@
 import { useRef, useState } from 'react'
-import { Image as ImageIcon, Trash2 } from 'lucide-react'
+import { Image as ImageIcon, Trash2, Loader2 } from 'lucide-react'
 import { Modal } from './ui/Modal'
 import { Input } from './ui/Input'
 import { Button } from './ui/Button'
+import { compressImage } from '../lib/image'
 
-const MAX_IMAGE_BYTES = 2 * 1024 * 1024 // 2MB: las imágenes se guardan en localStorage, no hay servidor detrás.
+const MAX_UPLOAD_BYTES = 4 * 1024 * 1024 // archivo que aceptamos del selector, antes de comprimir
 
-function ImageUploadRow({ label, hint, shape, dataUrl, onChange }) {
+function ImageUploadRow({ label, hint, shape, maxDimension, dataUrl, onChange }) {
   const fileInputRef = useRef(null)
   const [error, setError] = useState('')
+  const [processing, setProcessing] = useState(false)
 
-  const handleFileChange = (e) => {
+  const handleFileChange = async (e) => {
     const file = e.target.files?.[0]
     if (!file) return
     if (!file.type.startsWith('image/')) {
       setError('El archivo tiene que ser una imagen.')
       return
     }
-    if (file.size > MAX_IMAGE_BYTES) {
-      setError('La imagen es muy pesada (máximo 2 MB). Probá con una más liviana.')
+    if (file.size > MAX_UPLOAD_BYTES) {
+      setError('La imagen es muy pesada (máximo 4 MB). Probá con una más liviana.')
       return
     }
     setError('')
-    const reader = new FileReader()
-    reader.onload = () => onChange(reader.result)
-    reader.readAsDataURL(file)
+    setProcessing(true)
+    try {
+      const compressed = await compressImage(file, { maxDimension })
+      onChange(compressed)
+    } catch {
+      setError('No se pudo procesar la imagen. Probá con otro archivo.')
+    } finally {
+      setProcessing(false)
+    }
   }
 
   const handleRemove = () => {
@@ -46,10 +54,11 @@ function ImageUploadRow({ label, hint, shape, dataUrl, onChange }) {
           )}
         </div>
         <div className="flex gap-2">
-          <Button type="button" size="sm" variant="secondary" onClick={() => fileInputRef.current?.click()}>
-            {dataUrl ? 'Cambiar' : 'Subir imagen'}
+          <Button type="button" size="sm" variant="secondary" onClick={() => fileInputRef.current?.click()} disabled={processing}>
+            {processing && <Loader2 size={14} className="animate-spin" />}
+            {processing ? 'Optimizando...' : dataUrl ? 'Cambiar' : 'Subir imagen'}
           </Button>
-          {dataUrl && (
+          {dataUrl && !processing && (
             <Button type="button" size="sm" variant="ghost" onClick={handleRemove}>
               <Trash2 size={14} />
               Quitar
@@ -101,16 +110,18 @@ export function SettingsModal({ open, onClose, logoDataUrl, bannerDataUrl, onLog
       <div className="space-y-6">
         <ImageUploadRow
           label="Logo"
-          hint="Se muestra chico, junto al nombre. Se guarda en este navegador (no hay servidor todavía)."
+          hint="Se muestra chico, junto al nombre, y grande en el menú lateral. Se guarda en este navegador (no hay servidor todavía). Aceptamos hasta 4 MB y la achicamos nosotros."
           shape="square"
+          maxDimension={1000}
           dataUrl={logoDataUrl}
           onChange={onLogoChange}
         />
 
         <ImageUploadRow
           label="Banner"
-          hint="Imagen ancha de fondo para el encabezado. Se guarda en este navegador (no hay servidor todavía)."
+          hint="Imagen ancha de fondo para el encabezado. Se guarda en este navegador (no hay servidor todavía). Aceptamos hasta 4 MB y la achicamos nosotros."
           shape="wide"
+          maxDimension={2200}
           dataUrl={bannerDataUrl}
           onChange={onBannerChange}
         />

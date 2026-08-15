@@ -1,5 +1,21 @@
 # Changelog
 
+## v0.4.0 — Login con pantalla dividida + ajustes de imágenes y layout
+
+- **Login rediseñado**: pantalla dividida a la mitad. Un lado tiene una
+  ilustración original (celular con la pantalla rota + herramientas, hecha
+  en SVG, no es una foto) y el otro el nombre bien grande, un eslogan y el
+  formulario de usuario/contraseña.
+- **Imágenes más grandes y livianas**: ahora se aceptan archivos de hasta
+  4 MB para el logo y el banner, pero se comprimen y redimensionan en el
+  navegador antes de guardarse, así no llenan el almacenamiento del
+  navegador.
+- **Banner el doble de alto** tanto en el panel de cada local como en el del
+  Super Admin, para que la imagen se aprecie mejor.
+- **Configuración** se movió al menú lateral del local (debajo de
+  Proveedores), en vez de estar en el encabezado.
+- **Botón "Salir"** más grande y visible en ambos paneles.
+
 ## v0.3.0 — Logo y banner por local + Configuración para dueños
 
 - **Logo y banner separados**: Configuración ahora tiene dos imágenes

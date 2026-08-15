@@ -6,6 +6,7 @@ import { useTenant } from '../context/TenantContext'
 import { resetDB } from '../lib/db'
 import { Button } from '../components/ui/Button'
 import { Input } from '../components/ui/Input'
+import { RepairIllustration } from '../components/auth/RepairIllustration'
 
 export function Login() {
   const { currentUser, login, logout } = useAuth()
@@ -52,35 +53,50 @@ export function Login() {
     setTimeout(() => setResetMessage(''), 2500)
   }
 
+  const title = isRootDomain ? 'reparacioneStore' : store?.name
+  const tagline = isRootDomain
+    ? 'El panel para administrar todos tus locales de venta y reparación de celulares, en un solo lugar.'
+    : 'Gestión inteligente de stock, ventas y reparaciones para tu local.'
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-slate-50 px-4">
-      <div className="w-full max-w-sm">
-        <div className="mb-6 flex flex-col items-center gap-2 text-center">
-          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-brand-600 text-white">
-            {isRootDomain ? <ShieldCheck size={24} /> : <Store size={24} />}
+    <div className="flex min-h-screen bg-slate-50">
+      <div className="hidden w-1/2 md:block">
+        <RepairIllustration className="h-full w-full" />
+      </div>
+
+      <div className="flex w-full flex-col items-center justify-center px-6 py-12 md:w-1/2 md:px-12">
+        <div className="w-full max-w-sm">
+          <div className="mb-8">
+            <div className="mb-4 flex h-14 w-14 items-center justify-center overflow-hidden rounded-xl bg-brand-600 text-white">
+              {!isRootDomain && store?.logoDataUrl ? (
+                <img src={store.logoDataUrl} alt={store.name} className="h-full w-full object-contain bg-white p-1" />
+              ) : isRootDomain ? (
+                <ShieldCheck size={28} />
+              ) : (
+                <Store size={28} />
+              )}
+            </div>
+            <h1 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">{title}</h1>
+            <p className="mt-2 text-sm text-slate-500">{tagline}</p>
           </div>
-          <h1 className="text-xl font-semibold text-slate-800">{isRootDomain ? 'reparacioneStore' : store?.name}</h1>
-          <p className="text-sm text-slate-500">
-            {isRootDomain ? 'Panel general del administrador.' : 'Gestión de venta y reparación de celulares.'}
-          </p>
-        </div>
 
-        <form onSubmit={handleSubmit} className="space-y-3 rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-          <Input label="Usuario" value={username} onChange={(e) => setUsername(e.target.value)} autoFocus required />
-          <Input label="Contraseña" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-          {error && <p className="text-xs text-red-600">{error}</p>}
-          <Button type="submit" className="w-full">
-            <LogIn size={16} />
-            Ingresar
-          </Button>
-        </form>
+          <form onSubmit={handleSubmit} className="space-y-3 rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+            <Input label="Usuario" value={username} onChange={(e) => setUsername(e.target.value)} autoFocus required />
+            <Input label="Contraseña" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+            {error && <p className="text-xs text-red-600">{error}</p>}
+            <Button type="submit" className="w-full">
+              <LogIn size={16} />
+              Ingresar
+            </Button>
+          </form>
 
-        <div className="mt-4 flex flex-col items-center gap-1">
-          <Button variant="ghost" size="sm" onClick={handleReset}>
-            <RotateCcw size={14} />
-            Restablecer datos de demostración
-          </Button>
-          {resetMessage && <p className="text-xs text-emerald-600">{resetMessage}</p>}
+          <div className="mt-4 flex flex-col items-center gap-1">
+            <Button variant="ghost" size="sm" onClick={handleReset}>
+              <RotateCcw size={14} />
+              Restablecer datos de demostración
+            </Button>
+            {resetMessage && <p className="text-xs text-emerald-600">{resetMessage}</p>}
+          </div>
         </div>
       </div>
     </div>

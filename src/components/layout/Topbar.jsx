@@ -1,10 +1,10 @@
-import { LogOut, Settings } from 'lucide-react'
+import { LogOut } from 'lucide-react'
 import { Button } from '../ui/Button'
 
-export function Topbar({ storeName, user, bannerDataUrl, onLogout, onOpenSettings }) {
+export function Topbar({ storeName, user, bannerDataUrl, onLogout }) {
   return (
     <header
-      className="relative flex items-center justify-between overflow-hidden border-b border-slate-200 bg-white bg-cover bg-center px-4 py-4"
+      className="relative flex items-center justify-between overflow-hidden border-b border-slate-200 bg-white bg-cover bg-center px-4 py-8"
       style={bannerDataUrl ? { backgroundImage: `url(${bannerDataUrl})` } : undefined}
     >
       {bannerDataUrl && <div className="absolute inset-0 bg-slate-900/45" />}
@@ -17,12 +17,13 @@ export function Topbar({ storeName, user, bannerDataUrl, onLogout, onOpenSetting
           <p className={`text-sm font-medium ${bannerDataUrl ? 'text-white' : 'text-slate-700'}`}>{user?.name}</p>
           <p className={`text-xs ${bannerDataUrl ? 'text-white/80' : 'text-slate-400'}`}>Dueño de local</p>
         </div>
-        <Button variant={bannerDataUrl ? 'secondary' : 'ghost'} size="sm" onClick={onOpenSettings}>
-          <Settings size={16} />
-          Configuración
-        </Button>
-        <Button variant="ghost" size="sm" onClick={onLogout} className={bannerDataUrl ? 'text-white hover:bg-white/10' : ''}>
-          <LogOut size={16} />
+        <Button
+          variant="secondary"
+          size="md"
+          onClick={onLogout}
+          className={bannerDataUrl ? 'border-white/40 bg-white/10 text-white hover:bg-white/20' : ''}
+        >
+          <LogOut size={18} />
           Salir
         </Button>
       </div>
