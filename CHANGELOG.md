@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.2.1 — Link "Dashboard" en el menú del Super Admin
+
+- Faltaba una forma de volver al listado de locales desde Configuración.
+  Ahora el menú lateral del Super Admin tiene "Dashboard" (vuelve al
+  listado), además de "Nuevo local" y "Configuración".
+
 ## v1.2.0 — PIN antes del login de Administrador
 
 - Al tocar la pestaña "Administrador" en el login, ahora pide un **PIN**

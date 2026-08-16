@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom'
-import { Plus, Settings, Smartphone, LogOut } from 'lucide-react'
+import { LayoutDashboard, Plus, Settings, Smartphone, LogOut } from 'lucide-react'
 import { Button } from '../ui/Button'
 
 const itemClass = 'flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-base font-medium text-slate-600 transition-colors hover:bg-slate-50'
@@ -22,6 +22,10 @@ export function AdminSidebar({ logoDataUrl, user, onNewStore, onLogout }) {
         </div>
       </div>
       <nav className="flex-1 space-y-0.5 px-2 pt-4">
+        <NavLink to="/superadmin" end className={navItemClass}>
+          <LayoutDashboard size={20} />
+          Dashboard
+        </NavLink>
         <button type="button" onClick={onNewStore} className={itemClass}>
           <Plus size={20} />
           Nuevo local
