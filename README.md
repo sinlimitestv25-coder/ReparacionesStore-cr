@@ -5,7 +5,7 @@ Sistema de gestión para venta y reparación de celulares. Multi-local
 por su propio subdominio a su propia gestión (stock, ventas, reparaciones,
 clientes, proveedores) sin ver los demás locales.
 
-**Versión actual: v0.6.0** — todo funciona con datos de demostración
+**Versión actual: v0.7.0** — todo funciona con datos de demostración
 guardados en el `localStorage` del navegador. Todavía no hay conexión a una
 base de datos real (Supabase se va a integrar en una versión posterior).
 
@@ -99,6 +99,12 @@ no hay backend, esas credenciales se guardan **en texto plano** en el
 `localStorage` del navegador — sirve para probar el sistema, pero no es
 seguridad real. No uses ahí una contraseña que uses en otro lado. Esto se
 soluciona solo en cuanto conectemos Supabase (auth real, con cifrado).
+
+Desde el **dominio raíz** (`reparacionestore.com`) el login tiene dos
+pestañas, "Soy un local" y "Administrador" — así se puede entrar como
+dueño de cualquier local o como Super Admin sin necesitar todavía el
+subdominio real de ese local configurado. Cada **subdominio** de un local
+sigue siendo exclusivo: solo puede entrar el dueño de ESE local.
 
 Credenciales de los usuarios de demostración (semilla inicial):
 

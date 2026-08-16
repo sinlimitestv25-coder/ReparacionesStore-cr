@@ -62,16 +62,16 @@ export function StoresDashboard() {
 
   return (
     <div className="flex h-screen bg-slate-50">
-      <AdminSidebar logoDataUrl={settings.logoDataUrl} onNewStore={() => setModalOpen(true)} onOpenSettings={() => setSettingsOpen(true)} />
+      <AdminSidebar
+        logoDataUrl={settings.logoDataUrl}
+        user={currentUser}
+        onNewStore={() => setModalOpen(true)}
+        onOpenSettings={() => setSettingsOpen(true)}
+        onLogout={handleLogout}
+      />
 
       <div className="flex min-w-0 flex-1 flex-col">
-        <Topbar
-          title="reparacioneStore · Panel General"
-          user={currentUser}
-          userRoleLabel="Super Admin"
-          bannerDataUrl={settings.bannerDataUrl}
-          onLogout={handleLogout}
-        />
+        <Topbar title="reparacioneStore · Panel General" bannerDataUrl={settings.bannerDataUrl} />
 
         <main className="flex-1 space-y-6 overflow-y-auto p-4 sm:p-8">
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">

@@ -11,19 +11,21 @@ import { RepairIllustration } from '../components/auth/RepairIllustration'
 export function Login() {
   const { currentUser, login, logout } = useAuth()
   const { isRootDomain, store } = useTenant()
+  const [loginMode, setLoginMode] = useState('local') // solo se usa en el dominio raíz
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [resetMessage, setResetMessage] = useState('')
 
-  // La sesión guardada solo es válida en el dominio al que corresponde (un
-  // Super Admin en el dominio raíz, un dueño en el subdominio de SU local).
-  // Si no coincide hay que cerrarla acá en vez de redirigir a una ruta que
-  // no existe en este dominio (eso causaba un loop infinito antes).
+  // La sesión guardada solo es válida si corresponde a este dominio: en un
+  // subdominio, solo el dueño de ESE local; en el dominio raíz, tanto el
+  // Super Admin como cualquier dueño (su local se resuelve por la sesión,
+  // ver TenantContext). Si no coincide, se cierra acá en vez de redirigir a
+  // una ruta que no existe (eso causaba un loop infinito antes).
   const isValidSessionHere =
     !!currentUser &&
     (isRootDomain
-      ? currentUser.role === 'super_admin'
+      ? currentUser.role === 'super_admin' || (currentUser.role === 'owner' && !!store)
       : currentUser.role === 'owner' && currentUser.storeId === store?.id)
 
   useEffect(() => {
@@ -53,24 +55,51 @@ export function Login() {
     setTimeout(() => setResetMessage(''), 2500)
   }
 
-  const title = isRootDomain ? 'reparacioneStore' : store?.name
-  const tagline = isRootDomain
-    ? 'El panel para administrar todos tus locales de venta y reparación de celulares, en un solo lugar.'
-    : 'Tu nueva forma de gestionar el negocio: stock, ventas y reparaciones, todo en un solo lugar.'
+  const showingAdmin = isRootDomain && loginMode === 'admin'
+
+  const title = !isRootDomain ? store?.name : showingAdmin ? 'reparacioneStore · Administrador' : 'reparacioneStore'
+  const tagline = !isRootDomain
+    ? 'Tu nueva forma de gestionar el negocio: stock, ventas y reparaciones, todo en un solo lugar.'
+    : showingAdmin
+      ? 'El panel para administrar todos tus locales de venta y reparación de celulares, en un solo lugar.'
+      : 'Tu nueva forma de gestionar el negocio: stock, ventas y reparaciones, todo en un solo lugar.'
 
   return (
-    <div className="flex min-h-screen bg-slate-50">
+    <div className="flex h-screen bg-slate-50">
       <div className="hidden w-1/2 md:block">
         <RepairIllustration className="h-full w-full" />
       </div>
 
-      <div className="flex w-full flex-col items-center justify-center px-6 py-12 md:w-1/2 md:px-12">
+      <div className="flex h-full w-full flex-col items-center justify-center overflow-y-auto px-6 py-12 md:w-1/2 md:px-12">
         <div className="w-full max-w-sm">
+          {isRootDomain && (
+            <div className="mb-6 flex rounded-lg border border-slate-200 bg-white p-1 text-sm">
+              <button
+                type="button"
+                onClick={() => setLoginMode('local')}
+                className={`flex-1 rounded-md py-1.5 font-medium transition-colors ${
+                  loginMode === 'local' ? 'bg-brand-600 text-white' : 'text-slate-500 hover:bg-slate-50'
+                }`}
+              >
+                Soy un local
+              </button>
+              <button
+                type="button"
+                onClick={() => setLoginMode('admin')}
+                className={`flex-1 rounded-md py-1.5 font-medium transition-colors ${
+                  loginMode === 'admin' ? 'bg-brand-600 text-white' : 'text-slate-500 hover:bg-slate-50'
+                }`}
+              >
+                Administrador
+              </button>
+            </div>
+          )}
+
           <div className="mb-8">
             <div className="mb-4 flex h-14 w-14 items-center justify-center overflow-hidden rounded-xl bg-brand-600 text-white">
               {!isRootDomain && store?.logoDataUrl ? (
                 <img src={store.logoDataUrl} alt={store.name} className="h-full w-full object-contain bg-white p-1" />
-              ) : isRootDomain ? (
+              ) : showingAdmin ? (
                 <ShieldCheck size={28} />
               ) : (
                 <Store size={28} />

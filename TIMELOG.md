@@ -1,0 +1,11 @@
+# Registro de tiempos
+
+Tiempo real de trabajo por versión (hora de inicio y fin de cada tanda de
+cambios), para poder armar una estimación de duración del proyecto.
+
+No hay datos confiables de v0.0.0 a v0.6.0 (no se registraron en su
+momento) — el registro arranca en v0.7.0.
+
+| Versión | Inicio              | Fin                  | Duración |
+|---------|----------------------|-----------------------|----------|
+| v0.7.0  | 2026-08-15 20:57:25 | 2026-08-15 21:05:18  | 7m 53s   |

@@ -19,16 +19,16 @@ export function AppLayout() {
 
   return (
     <div className="flex h-screen bg-slate-50">
-      <Sidebar logoDataUrl={store.logoDataUrl} storeName={store.name} onOpenSettings={() => setSettingsOpen(true)} />
+      <Sidebar
+        logoDataUrl={store.logoDataUrl}
+        storeName={store.name}
+        user={currentUser}
+        userRoleLabel="Dueño de local"
+        onOpenSettings={() => setSettingsOpen(true)}
+        onLogout={handleLogout}
+      />
       <div className="flex min-w-0 flex-1 flex-col">
-        <Topbar
-          title={store.name}
-          subtitle="Gestión de venta y reparación de celulares"
-          user={currentUser}
-          userRoleLabel="Dueño de local"
-          bannerDataUrl={store.bannerDataUrl}
-          onLogout={handleLogout}
-        />
+        <Topbar title={store.name} subtitle="Gestión de venta y reparación de celulares" bannerDataUrl={store.bannerDataUrl} />
         <main className="flex-1 overflow-y-auto p-4 sm:p-6">
           <Outlet />
         </main>

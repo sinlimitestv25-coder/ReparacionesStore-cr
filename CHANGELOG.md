@@ -1,5 +1,19 @@
 # Changelog
 
+## v0.7.0 — Login unificado (admin o local) + reorganización de banner/sidebar
+
+- **Login unificado**: desde el dominio raíz ahora se puede elegir "Soy un
+  local" o "Administrador" y entrar como corresponda, sin necesitar todavía
+  el subdominio real configurado. Cada subdominio de local sigue siendo
+  exclusivo de su dueño, sin cambios ahí.
+- **Imagen del login acotada** a la altura de la pantalla (antes podía
+  estirarse más si el formulario era más alto que la pantalla).
+- **Banner**: quedó solo con el nombre y la descripción a la izquierda (con
+  el texto un poco más grande para la nueva altura). El usuario logueado y
+  el botón "Salir" se movieron abajo de todo del menú lateral, tanto en el
+  panel de cada local como en el del Super Admin.
+- Empieza el registro de tiempos por versión (`TIMELOG.md`).
+
 ## v0.6.0 — Recibo de ingreso en PDF, con política configurable
 
 - **Nueva dependencia**: `jspdf`. Hace falta correr `npm install` de nuevo

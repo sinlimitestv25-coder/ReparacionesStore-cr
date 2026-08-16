@@ -12,38 +12,31 @@ import { Clients } from './pages/store/Clients'
 import { Providers } from './pages/store/Providers'
 import { ProtectedRoute } from './router/ProtectedRoute'
 
-// Dos "modos" completamente separados según el dominio con el que se entra:
-// - Dominio raíz (reparacionestore.com): panel del Super Admin.
-// - Subdominio de un local (centro.reparacionestore.com): gestión de ese local.
+// Un solo árbol de rutas: en un subdominio de local, solo esas rutas de
+// local tienen sentido (el tenant queda fijado por el subdominio). En el
+// dominio raíz conviven el panel del Super Admin y, si hay una sesión de
+// dueño activa, también su panel de local (ver TenantContext).
 export default function App() {
-  const { isRootDomain, notFound } = useTenant()
+  const { notFound } = useTenant()
 
   if (notFound) {
     return <TenantNotFound />
-  }
-
-  if (isRootDomain) {
-    return (
-      <Routes>
-        <Route path="/" element={<Navigate to="/login" replace />} />
-        <Route path="/login" element={<Login />} />
-        <Route
-          path="/superadmin"
-          element={
-            <ProtectedRoute requireSuperAdmin>
-              <StoresDashboard />
-            </ProtectedRoute>
-          }
-        />
-        <Route path="*" element={<Navigate to="/login" replace />} />
-      </Routes>
-    )
   }
 
   return (
     <Routes>
       <Route path="/" element={<Navigate to="/login" replace />} />
       <Route path="/login" element={<Login />} />
+
+      <Route
+        path="/superadmin"
+        element={
+          <ProtectedRoute requireSuperAdmin>
+            <StoresDashboard />
+          </ProtectedRoute>
+        }
+      />
+
       <Route
         element={
           <ProtectedRoute requireStoreOwner>
@@ -58,6 +51,7 @@ export default function App() {
         <Route path="/clientes" element={<Clients />} />
         <Route path="/proveedores" element={<Providers />} />
       </Route>
+
       <Route path="*" element={<Navigate to="/login" replace />} />
     </Routes>
   )

@@ -1,5 +1,6 @@
 import { NavLink } from 'react-router-dom'
-import { LayoutDashboard, Boxes, ShoppingCart, Wrench, Users, Truck, Smartphone, Settings } from 'lucide-react'
+import { LayoutDashboard, Boxes, ShoppingCart, Wrench, Users, Truck, Smartphone, Settings, LogOut } from 'lucide-react'
+import { Button } from '../ui/Button'
 
 const NAV_ITEMS = [
   { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
@@ -15,7 +16,7 @@ const navItemClass = ({ isActive }) =>
     isActive ? 'bg-brand-50 text-brand-700' : 'text-slate-600 hover:bg-slate-50'
   }`
 
-export function Sidebar({ logoDataUrl, storeName, onOpenSettings }) {
+export function Sidebar({ logoDataUrl, storeName, user, userRoleLabel, onOpenSettings, onLogout }) {
   return (
     <aside className="hidden w-56 shrink-0 flex-col border-r border-slate-200 bg-white sm:flex">
       <div className="p-3">
@@ -39,6 +40,15 @@ export function Sidebar({ logoDataUrl, storeName, onOpenSettings }) {
           Configuración
         </button>
       </nav>
+
+      <div className="border-t border-slate-100 p-3">
+        <p className="truncate text-sm font-medium text-slate-700">{user?.name}</p>
+        {userRoleLabel && <p className="mb-2 truncate text-xs text-slate-400">{userRoleLabel}</p>}
+        <Button variant="secondary" size="sm" onClick={onLogout} className="w-full">
+          <LogOut size={15} />
+          Salir
+        </Button>
+      </div>
     </aside>
   )
 }
