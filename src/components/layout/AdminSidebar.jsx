@@ -2,10 +2,10 @@ import { NavLink } from 'react-router-dom'
 import { Plus, Settings, Smartphone, LogOut } from 'lucide-react'
 import { Button } from '../ui/Button'
 
-const itemClass = 'flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-sm font-medium text-slate-600 transition-colors hover:bg-slate-50'
+const itemClass = 'flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-base font-medium text-slate-600 transition-colors hover:bg-slate-50'
 
 const navItemClass = ({ isActive }) =>
-  `flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
+  `flex items-center gap-3 rounded-lg px-3 py-2.5 text-base font-medium transition-colors ${
     isActive ? 'bg-brand-50 text-brand-700' : 'text-slate-600 hover:bg-slate-50'
   }`
 
@@ -23,11 +23,11 @@ export function AdminSidebar({ logoDataUrl, user, onNewStore, onLogout }) {
       </div>
       <nav className="flex-1 space-y-0.5 px-2 pt-4">
         <button type="button" onClick={onNewStore} className={itemClass}>
-          <Plus size={17} />
+          <Plus size={20} />
           Nuevo local
         </button>
         <NavLink to="/superadmin/configuracion" className={navItemClass}>
-          <Settings size={17} />
+          <Settings size={20} />
           Configuración
         </NavLink>
       </nav>

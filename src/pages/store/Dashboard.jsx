@@ -46,8 +46,14 @@ export function Dashboard() {
       </div>
 
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-3">
-        <StatCard icon={Wallet} label="Valor de stock (costo)" value={formatCurrency(stockCostValue)} color="blue" />
-        <StatCard icon={TrendingUp} label="Valor de stock (venta)" value={formatCurrency(stockSaleValue)} color="emerald" />
+        <StatCard icon={Wallet} label="Costo del stock" hint="Lo que invertiste en lo que tenés" value={formatCurrency(stockCostValue)} color="blue" />
+        <StatCard
+          icon={TrendingUp}
+          label="Valor de venta del stock"
+          hint="Si vendieras todo al precio de lista"
+          value={formatCurrency(stockSaleValue)}
+          color="emerald"
+        />
         <StatCard icon={ShoppingCart} label="Ventas del mes" value={formatCurrency(monthRevenue)} hint={`${monthSales.length} ventas`} color="blue" />
         <StatCard icon={TrendingUp} label="Ganancia estimada del mes" value={formatCurrency(monthProfit)} color="emerald" />
         <StatCard icon={Wrench} label="Reparaciones en curso" value={activeRepairs.length} color="amber" />

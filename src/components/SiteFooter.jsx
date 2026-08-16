@@ -16,7 +16,7 @@ export function SiteFooter({ className = '' }) {
           Términos y condiciones
         </button>
         <span>·</span>
-        <span>© {new Date().getFullYear()} S&R Soluciones Digitales</span>
+        <span>© {new Date().getFullYear()} C&R Soluciones Digitales</span>
       </footer>
 
       <LegalModal

@@ -1,5 +1,15 @@
 # Changelog
 
+## v0.9.1 — Ajustes: nombre correcto, labels más claros, tarjetas y menú más grandes
+
+- Corregido el copyright: **C&R Soluciones Digitales** (no S&R).
+- Renombrados los labels del dashboard que generaban confusión: "Valor de
+  stock (costo)" → "Costo del stock" y "Valor de stock (venta)" → "Valor de
+  venta del stock", cada uno con una aclaración corta.
+- Tarjetas de métricas (dashboard del local): ícono y número más grandes.
+- Menú lateral (local y Super Admin): letra e íconos de cada módulo más
+  grandes.
+
 ## v0.9.0 — Configuración como módulo propio + footer en todas las pantallas
 
 - **Configuración** dejó de ser un modal: ahora es un módulo más en el menú

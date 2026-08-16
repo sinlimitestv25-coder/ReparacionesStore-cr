@@ -13,7 +13,7 @@ const NAV_ITEMS = [
 ]
 
 const navItemClass = ({ isActive }) =>
-  `flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
+  `flex items-center gap-3 rounded-lg px-3 py-2.5 text-base font-medium transition-colors ${
     isActive ? 'bg-brand-50 text-brand-700' : 'text-slate-600 hover:bg-slate-50'
   }`
 
@@ -32,7 +32,7 @@ export function Sidebar({ logoDataUrl, storeName, user, userRoleLabel, onLogout 
       <nav className="flex-1 space-y-0.5 px-2 pt-4">
         {NAV_ITEMS.map(({ to, label, icon: Icon }) => (
           <NavLink key={to} to={to} className={navItemClass}>
-            <Icon size={17} />
+            <Icon size={20} />
             {label}
           </NavLink>
         ))}
