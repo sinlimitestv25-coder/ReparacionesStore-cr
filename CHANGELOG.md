@@ -1,5 +1,17 @@
 # Changelog
 
+## v1.4.0 — Fix de scroll horizontal en celular + tarjetas de montos completas
+
+- **Fix de raíz**: en el Dashboard, la fila de "Últimas ventas" y "Stock con
+  alerta de reposición" hacía correr toda la pantalla hacia los costados en
+  el celular, en vez de que solo se corriera la tabla de adentro. La causa
+  era general (afecta a cualquier tarjeta con tabla ancha dentro de una
+  grilla) — el arreglo quedó en el componente base `Card`, así que no puede
+  volver a pasar en ningún módulo nuevo que agreguemos.
+- **Tarjetas de métricas** (valor de stock, ganancia, locales, etc.): en el
+  celular ahora ocupan todo el ancho, una debajo de la otra, así el monto
+  se ve completo en vez de cortado.
+
 ## v1.3.0 — Menú de navegación en celular
 
 - El menú lateral (local y Super Admin) no se veía en pantallas chicas y no

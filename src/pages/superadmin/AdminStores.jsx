@@ -37,7 +37,7 @@ export function AdminStores() {
 
   return (
     <div className="space-y-6">
-      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
         <StatCard icon={StoreIcon} label="Locales totales" value={stores.length} color="blue" />
         <StatCard icon={Power} label="Locales activos" value={activeStores} color="emerald" />
         <StatCard icon={StoreIcon} label="Locales inactivos" value={stores.length - activeStores} color="amber" />

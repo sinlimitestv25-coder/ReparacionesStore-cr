@@ -19,8 +19,9 @@ momento) — el registro arranca en v0.7.0.
 | v1.2.0  | 2026-08-16 02:35:00 | 2026-08-16 02:46:25  | 11m 25s  |
 | v1.2.1  | 2026-08-16 03:00:36 | 2026-08-16 03:04:20  | 3m 44s   |
 | v1.3.0  | 2026-08-16 03:30:22 | 2026-08-16 03:37:41  | 7m 19s   |
+| v1.4.0  | 2026-08-16 04:05:21 | 2026-08-16 04:10:51  | 5m 30s   |
 
-**Total registrado (v0.7.0 a v1.3.0): 1h 24m 35s**
+**Total registrado (v0.7.0 a v1.4.0): 1h 30m 05s**
 
 ## Estimación v0.0.0 a v0.6.0 (no medido, aproximado)
 
@@ -44,7 +45,7 @@ duro, es una aproximación para tener una referencia.
 
 ## Total combinado (medido + estimado)
 
-**~3h 45m** (1h 25m medido + ~2h 20m estimado)
+**~3h 50m** (1h 30m medido + ~2h 20m estimado)
 
 (Sigue sin incluir el tiempo que vos tardás en probar y responder entre
 versiones — eso es aparte.)
