@@ -98,15 +98,15 @@ export function Login() {
       <div className="flex h-full w-full flex-col items-center justify-center overflow-y-auto px-6 py-12 md:w-1/2 md:px-12">
         <div className="w-full max-w-sm">
           <div className="mb-8 flex flex-col items-center text-center">
-            <div className="mb-5 flex h-20 w-20 items-center justify-center overflow-hidden rounded-2xl bg-brand-600 text-white shadow-sm">
+            <div className="mb-5 flex h-24 w-24 items-center justify-center overflow-hidden rounded-2xl bg-brand-600 text-white shadow-sm">
               {!isRootDomain && store?.logoDataUrl ? (
-                <img src={store.logoDataUrl} alt={store.name} className="h-full w-full object-contain bg-white p-1.5" />
+                <img src={store.logoDataUrl} alt={store.name} className="h-full w-full object-cover" />
               ) : isRootDomain && settings.logoDataUrl ? (
-                <img src={settings.logoDataUrl} alt="Logo" className="h-full w-full object-contain bg-white p-1.5" />
+                <img src={settings.logoDataUrl} alt="Logo" className="h-full w-full object-cover" />
               ) : showingAdmin ? (
-                <ShieldCheck size={36} />
+                <ShieldCheck size={40} />
               ) : (
-                <Store size={36} />
+                <Store size={40} />
               )}
             </div>
 

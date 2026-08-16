@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.1.1 — El logo del login ocupa todo el recuadro
+
+- Corregido: el logo del login se veía achicado con bordes blancos
+  alrededor (contenido dentro del cuadro, sin llenarlo). Ahora la imagen
+  cubre todo el recuadro, sin bordes, y el recuadro es un poco más grande.
+
 ## v1.1.0 — Número de versión visible, logo del panel en el login, marca con tipografía propia
 
 - **Número de versión** ahora se ve en el pie de página de todas las
