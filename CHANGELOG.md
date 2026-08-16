@@ -1,5 +1,15 @@
 # Changelog
 
+## v1.2.0 — PIN antes del login de Administrador
+
+- Al tocar la pestaña "Administrador" en el login, ahora pide un **PIN**
+  antes de mostrar el formulario de usuario/contraseña — pensado para que
+  un dueño de local no entre ahí por error. El Super Admin lo define y
+  cambia desde Configuración (por defecto `1234` si nunca lo cambiaste).
+- **Importante**: es una traba liviana, no seguridad real — vive en el
+  navegador como todo en esta etapa. Cuando conectemos Supabase esto se
+  reemplaza por autenticación de verdad.
+
 ## v1.1.1 — El logo del login ocupa todo el recuadro
 
 - Corregido: el logo del login se veía achicado con bordes blancos

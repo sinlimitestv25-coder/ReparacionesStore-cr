@@ -22,6 +22,11 @@ export const PAYMENT_METHODS = [
   { value: 'transferencia', label: 'Transferencia' },
 ]
 
+// PIN de acceso a la pestaña "Administrador" del login. Es una traba
+// liviana contra clics por error, no seguridad real (vive en el navegador,
+// como todo en esta etapa demo).
+export const DEFAULT_ADMIN_PIN = '1234'
+
 export const DEFAULT_REPAIR_TERMS = `El cliente dispone de 30 días corridos desde la fecha de este recibo para retirar el equipo. Pasado ese plazo, el local no se responsabiliza por su guarda ni conservación.
 
 El diagnóstico inicial es una estimación; el presupuesto final puede variar una vez abierto el equipo, y se le va a informar antes de continuar con la reparación.

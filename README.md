@@ -5,7 +5,7 @@ Sistema de gestión para venta y reparación de celulares. Multi-local
 por su propio subdominio a su propia gestión (stock, ventas, reparaciones,
 clientes, proveedores) sin ver los demás locales.
 
-**Versión actual: v1.1.1** — todo funciona con datos de demostración
+**Versión actual: v1.2.0** — todo funciona con datos de demostración
 guardados en el `localStorage` del navegador. Todavía no hay conexión a una
 base de datos real (Supabase se va a integrar en una versión posterior).
 
@@ -105,6 +105,11 @@ pestañas, "Soy un local" y "Administrador" — así se puede entrar como
 dueño de cualquier local o como Super Admin sin necesitar todavía el
 subdominio real de ese local configurado. Cada **subdominio** de un local
 sigue siendo exclusivo: solo puede entrar el dueño de ESE local.
+
+La pestaña "Administrador" pide primero un **PIN** (por defecto `1234`,
+cambiable desde Configuración → "PIN de acceso a Administrador") antes de
+mostrar el login — pensado para que nadie entre ahí por error, no como
+seguridad real.
 
 La mitad del login es una imagen. Por defecto se ve una ilustración propia
 (SVG). El Super Admin puede subir su propia imagen desde **Configuración →

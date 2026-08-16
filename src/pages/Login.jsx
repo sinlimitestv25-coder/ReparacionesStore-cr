@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Navigate } from 'react-router-dom'
-import { ShieldCheck, Store, RotateCcw, LogIn } from 'lucide-react'
+import { ShieldCheck, Store, RotateCcw, LogIn, KeyRound } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
 import { useTenant } from '../context/TenantContext'
 import { useSettings } from '../hooks/useSettings'
@@ -10,6 +10,7 @@ import { Input } from '../components/ui/Input'
 import { RepairIllustration } from '../components/auth/RepairIllustration'
 import { LoadingScreen } from '../components/auth/LoadingScreen'
 import { SiteFooter } from '../components/SiteFooter'
+import { DEFAULT_ADMIN_PIN } from '../constants'
 
 const LOADING_MS = 2200
 
@@ -24,6 +25,9 @@ export function Login() {
   const [resetMessage, setResetMessage] = useState('')
   const [photoFailed, setPhotoFailed] = useState(false)
   const [readyToEnter, setReadyToEnter] = useState(false)
+  const [pinInput, setPinInput] = useState('')
+  const [pinVerified, setPinVerified] = useState(false)
+  const [pinError, setPinError] = useState('')
 
   // La sesión guardada solo es válida si corresponde a este dominio: en un
   // subdominio, solo el dueño de ESE local; en el dominio raíz, tanto el
@@ -53,6 +57,16 @@ export function Login() {
     setReadyToEnter(false)
   }, [isValidSessionHere])
 
+  // El PIN de administrador se vuelve a pedir cada vez que se sale de esa
+  // pestaña, para que no quede "desbloqueada" sin querer.
+  useEffect(() => {
+    if (!(isRootDomain && loginMode === 'admin')) {
+      setPinVerified(false)
+      setPinInput('')
+      setPinError('')
+    }
+  }, [isRootDomain, loginMode])
+
   if (isValidSessionHere) {
     if (!readyToEnter) return <LoadingScreen />
     return <Navigate to={currentUser.role === 'super_admin' ? '/superadmin' : '/dashboard'} replace />
@@ -74,7 +88,18 @@ export function Login() {
     setTimeout(() => setResetMessage(''), 2500)
   }
 
+  const handlePinSubmit = (e) => {
+    e.preventDefault()
+    if (pinInput === (settings.adminPin || DEFAULT_ADMIN_PIN)) {
+      setPinVerified(true)
+      setPinError('')
+    } else {
+      setPinError('PIN incorrecto.')
+    }
+  }
+
   const showingAdmin = isRootDomain && loginMode === 'admin'
+  const needsPin = showingAdmin && !pinVerified
 
   const title = !isRootDomain ? store?.name : showingAdmin ? 'ReparacioneStore · Administrador' : 'ReparacioneStore'
   const tagline = !isRootDomain
@@ -139,15 +164,35 @@ export function Login() {
             <p className="mt-2 text-sm text-slate-500">{tagline}</p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-3 rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-            <Input label="Usuario" value={username} onChange={(e) => setUsername(e.target.value)} autoFocus required />
-            <Input label="Contraseña" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-            {error && <p className="text-xs text-red-600">{error}</p>}
-            <Button type="submit" className="w-full">
-              <LogIn size={16} />
-              Ingresar
-            </Button>
-          </form>
+          {needsPin ? (
+            <form onSubmit={handlePinSubmit} className="space-y-3 rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+              <Input
+                label="PIN de administrador"
+                type="password"
+                inputMode="numeric"
+                maxLength={6}
+                value={pinInput}
+                onChange={(e) => setPinInput(e.target.value.replace(/\D/g, ''))}
+                autoFocus
+                required
+              />
+              {pinError && <p className="text-xs text-red-600">{pinError}</p>}
+              <Button type="submit" className="w-full">
+                <KeyRound size={16} />
+                Continuar
+              </Button>
+            </form>
+          ) : (
+            <form onSubmit={handleSubmit} className="space-y-3 rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+              <Input label="Usuario" value={username} onChange={(e) => setUsername(e.target.value)} autoFocus required />
+              <Input label="Contraseña" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+              {error && <p className="text-xs text-red-600">{error}</p>}
+              <Button type="submit" className="w-full">
+                <LogIn size={16} />
+                Ingresar
+              </Button>
+            </form>
+          )}
 
           <div className="mt-4 flex flex-col items-center gap-1">
             <Button variant="ghost" size="sm" onClick={handleReset}>

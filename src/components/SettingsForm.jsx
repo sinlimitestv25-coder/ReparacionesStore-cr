@@ -87,12 +87,18 @@ export function SettingsForm({
   onIntakeTermsChange,
   repairTerms,
   onRepairTermsChange,
+  onAdminPinChange,
   onChangePassword,
 }) {
   const [newPassword, setNewPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [passwordError, setPasswordError] = useState('')
   const [passwordMessage, setPasswordMessage] = useState('')
+
+  const [newPin, setNewPin] = useState('')
+  const [confirmPin, setConfirmPin] = useState('')
+  const [pinError, setPinError] = useState('')
+  const [pinMessage, setPinMessage] = useState('')
 
   const [intakeDraft, setIntakeDraft] = useState(() => intakeTerms || DEFAULT_INTAKE_TERMS)
   const [intakeMessage, setIntakeMessage] = useState('')
@@ -111,6 +117,24 @@ export function SettingsForm({
     onRepairTermsChange(termsDraft)
     setTermsMessage('Política guardada.')
     setTimeout(() => setTermsMessage(''), 2500)
+  }
+
+  const handlePinSubmit = (e) => {
+    e.preventDefault()
+    if (!/^\d{4,6}$/.test(newPin)) {
+      setPinError('El PIN tiene que tener entre 4 y 6 números.')
+      return
+    }
+    if (newPin !== confirmPin) {
+      setPinError('Los PIN no coinciden.')
+      return
+    }
+    onAdminPinChange(newPin)
+    setPinError('')
+    setNewPin('')
+    setConfirmPin('')
+    setPinMessage('PIN actualizado.')
+    setTimeout(() => setPinMessage(''), 2500)
   }
 
   const handlePasswordSubmit = (e) => {
@@ -190,6 +214,39 @@ export function SettingsForm({
           {termsMessage && <p className="text-xs text-emerald-600">{termsMessage}</p>}
           <Button type="submit" size="sm">
             Guardar política
+          </Button>
+        </form>
+      )}
+
+      {onAdminPinChange && (
+        <form onSubmit={handlePinSubmit} className="space-y-2 border-t border-slate-100 pt-4">
+          <p className="text-sm font-semibold text-slate-800">PIN de acceso a "Administrador"</p>
+          <p className="text-xs text-slate-400">
+            Se pide antes de mostrar el login de administrador, para que nadie entre ahí por error. No es
+            seguridad real (vive en este navegador) — eso llega con la autenticación de verdad, más adelante.
+          </p>
+          <div className="grid grid-cols-2 gap-3">
+            <Input
+              label="PIN nuevo (4 a 6 números)"
+              type="password"
+              inputMode="numeric"
+              maxLength={6}
+              value={newPin}
+              onChange={(e) => setNewPin(e.target.value.replace(/\D/g, ''))}
+            />
+            <Input
+              label="Confirmar PIN"
+              type="password"
+              inputMode="numeric"
+              maxLength={6}
+              value={confirmPin}
+              onChange={(e) => setConfirmPin(e.target.value.replace(/\D/g, ''))}
+            />
+          </div>
+          {pinError && <p className="text-xs text-red-600">{pinError}</p>}
+          {pinMessage && <p className="text-xs text-emerald-600">{pinMessage}</p>}
+          <Button type="submit" size="sm">
+            Guardar PIN
           </Button>
         </form>
       )}
