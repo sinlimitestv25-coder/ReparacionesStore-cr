@@ -1,5 +1,15 @@
 # Changelog
 
+## v1.0.0 — Imagen de login cargable desde Configuración
+
+- A partir de esta versión el versionado pasa a **1.0.0** (después de
+  v0.0 a v0.9 completas, la siguiente ya es 1.0 en vez de 0.10).
+- **Imagen de inicio de sesión cargable**: el Super Admin ahora puede subir
+  la imagen que se ve al costado del login desde Configuración → "Imagen de
+  inicio de sesión" — mismo sistema que el logo y el banner (se comprime y
+  se guarda en el navegador). Si no cargás ninguna, se sigue viendo la
+  ilustración de respaldo (o `public/login-bench.jpg`, si existe).
+
 ## v0.10.0 — Foto propia en el login + animación de carga al entrar
 
 - **Foto del login preparada**: guardá tu imagen como `public/login-bench.jpg`

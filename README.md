@@ -5,7 +5,7 @@ Sistema de gestión para venta y reparación de celulares. Multi-local
 por su propio subdominio a su propia gestión (stock, ventas, reparaciones,
 clientes, proveedores) sin ver los demás locales.
 
-**Versión actual: v0.10.0** — todo funciona con datos de demostración
+**Versión actual: v1.0.0** — todo funciona con datos de demostración
 guardados en el `localStorage` del navegador. Todavía no hay conexión a una
 base de datos real (Supabase se va a integrar en una versión posterior).
 
@@ -106,10 +106,13 @@ dueño de cualquier local o como Super Admin sin necesitar todavía el
 subdominio real de ese local configurado. Cada **subdominio** de un local
 sigue siendo exclusivo: solo puede entrar el dueño de ESE local.
 
-La mitad del login es una imagen: por defecto es una ilustración propia
-(SVG). Para usar tu propia foto, guardala como `public/login-bench.jpg`
-(hay un archivo `LEEME-imagen-login.txt` con este mismo recordatorio) — se
-muestra sola, sin tocar código.
+La mitad del login es una imagen. Por defecto se ve una ilustración propia
+(SVG). El Super Admin puede subir su propia imagen desde **Configuración →
+Imagen de inicio de sesión** (se guarda en el navegador, igual que el logo
+y el banner). Alternativa manual: guardar un archivo como
+`public/login-bench.jpg` (hay un `LEEME-imagen-login.txt` con el
+recordatorio) — se usa solo si no hay ninguna imagen cargada desde
+Configuración.
 
 Al iniciar sesión correctamente se ve una animación de carga (celulares
 "rotos" cayendo a un remolino, sale uno reparado) antes de entrar al panel.

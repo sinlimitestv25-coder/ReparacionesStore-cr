@@ -3,6 +3,7 @@ import { Navigate } from 'react-router-dom'
 import { ShieldCheck, Store, RotateCcw, LogIn } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
 import { useTenant } from '../context/TenantContext'
+import { useSettings } from '../hooks/useSettings'
 import { resetDB } from '../lib/db'
 import { Button } from '../components/ui/Button'
 import { Input } from '../components/ui/Input'
@@ -15,6 +16,7 @@ const LOADING_MS = 2200
 export function Login() {
   const { currentUser, login, logout } = useAuth()
   const { isRootDomain, store } = useTenant()
+  const { settings } = useSettings()
   const [loginMode, setLoginMode] = useState('local') // solo se usa en el dominio raíz
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -84,13 +86,10 @@ export function Login() {
   return (
     <div className="flex h-screen bg-slate-50">
       <div className="hidden w-1/2 md:block">
-        {!photoFailed ? (
-          <img
-            src="/login-bench.jpg"
-            alt=""
-            className="h-full w-full object-cover"
-            onError={() => setPhotoFailed(true)}
-          />
+        {settings.loginImageDataUrl ? (
+          <img src={settings.loginImageDataUrl} alt="" className="h-full w-full object-cover" />
+        ) : !photoFailed ? (
+          <img src="/login-bench.jpg" alt="" className="h-full w-full object-cover" onError={() => setPhotoFailed(true)} />
         ) : (
           <RepairIllustration className="h-full w-full" />
         )}

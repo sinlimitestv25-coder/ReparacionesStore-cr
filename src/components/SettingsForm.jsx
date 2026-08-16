@@ -81,6 +81,8 @@ export function SettingsForm({
   bannerDataUrl,
   onLogoChange,
   onBannerChange,
+  loginImageDataUrl,
+  onLoginImageChange,
   intakeTerms,
   onIntakeTermsChange,
   repairTerms,
@@ -148,6 +150,19 @@ export function SettingsForm({
         dataUrl={bannerDataUrl}
         onChange={onBannerChange}
       />
+
+      {onLoginImageChange && (
+        <div className="border-t border-slate-100 pt-4">
+          <ImageUploadRow
+            label="Imagen de inicio de sesión"
+            hint="Se muestra a un costado de la pantalla de login (mitad de la pantalla). Se guarda en este navegador. Aceptamos hasta 4 MB y la achicamos nosotros. Si no cargás ninguna, se ve una ilustración de respaldo."
+            shape="wide"
+            maxDimension={2000}
+            dataUrl={loginImageDataUrl}
+            onChange={onLoginImageChange}
+          />
+        </div>
+      )}
 
       {onIntakeTermsChange && (
         <form onSubmit={handleIntakeSubmit} className="space-y-2 border-t border-slate-100 pt-4">

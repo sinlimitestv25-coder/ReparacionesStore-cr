@@ -16,6 +16,7 @@ export function buildSeedDB() {
     settings: {
       logoDataUrl: null,
       bannerDataUrl: null,
+      loginImageDataUrl: null,
     },
 
     users: [

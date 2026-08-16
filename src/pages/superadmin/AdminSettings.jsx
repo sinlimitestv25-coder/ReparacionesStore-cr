@@ -20,6 +20,8 @@ export function AdminSettings() {
           bannerDataUrl={settings.bannerDataUrl}
           onLogoChange={(logoDataUrl) => updateSettings({ logoDataUrl })}
           onBannerChange={(bannerDataUrl) => updateSettings({ bannerDataUrl })}
+          loginImageDataUrl={settings.loginImageDataUrl}
+          onLoginImageChange={(loginImageDataUrl) => updateSettings({ loginImageDataUrl })}
           onChangePassword={changePassword}
         />
       </Card>
