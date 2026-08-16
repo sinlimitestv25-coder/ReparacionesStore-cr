@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import { useTenant } from '../../context/TenantContext'
@@ -9,6 +10,7 @@ export function AppLayout() {
   const navigate = useNavigate()
   const { currentUser, logout } = useAuth()
   const { store } = useTenant()
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   const handleLogout = () => {
     logout()
@@ -23,9 +25,16 @@ export function AppLayout() {
         user={currentUser}
         userRoleLabel="Dueño de local"
         onLogout={handleLogout}
+        mobileOpen={mobileMenuOpen}
+        onCloseMobile={() => setMobileMenuOpen(false)}
       />
       <div className="flex min-w-0 flex-1 flex-col">
-        <Topbar title={store.name} subtitle="Gestión de venta y reparación de celulares" bannerDataUrl={store.bannerDataUrl} />
+        <Topbar
+          title={store.name}
+          subtitle="Gestión de venta y reparación de celulares"
+          bannerDataUrl={store.bannerDataUrl}
+          onOpenMenu={() => setMobileMenuOpen(true)}
+        />
         <main className="flex flex-1 flex-col overflow-y-auto p-4 sm:p-6">
           <div className="flex-1">
             <Outlet />

@@ -15,6 +15,7 @@ export function AdminLayout() {
   const { items: users, create: createUser } = useCollection('users')
   const { settings } = useSettings()
   const [modalOpen, setModalOpen] = useState(false)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   const handleLogout = () => {
     logout()
@@ -31,10 +32,21 @@ export function AdminLayout() {
 
   return (
     <div className="flex h-screen bg-slate-50">
-      <AdminSidebar logoDataUrl={settings.logoDataUrl} user={currentUser} onNewStore={() => setModalOpen(true)} onLogout={handleLogout} />
+      <AdminSidebar
+        logoDataUrl={settings.logoDataUrl}
+        user={currentUser}
+        onNewStore={() => setModalOpen(true)}
+        onLogout={handleLogout}
+        mobileOpen={mobileMenuOpen}
+        onCloseMobile={() => setMobileMenuOpen(false)}
+      />
 
       <div className="flex min-w-0 flex-1 flex-col">
-        <Topbar title="ReparacioneStore · Panel General" bannerDataUrl={settings.bannerDataUrl} />
+        <Topbar
+          title="ReparacioneStore · Panel General"
+          bannerDataUrl={settings.bannerDataUrl}
+          onOpenMenu={() => setMobileMenuOpen(true)}
+        />
         <main className="flex flex-1 flex-col overflow-y-auto p-4 sm:p-8">
           <div className="flex-1">
             <Outlet />

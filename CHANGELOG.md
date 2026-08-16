@@ -1,5 +1,12 @@
 # Changelog
 
+## v1.3.0 — Menú de navegación en celular
+
+- El menú lateral (local y Super Admin) no se veía en pantallas chicas y no
+  había otra forma de navegar entre módulos. Ahora aparece un botón de
+  menú (☰) arriba a la izquierda que despliega el mismo menú como panel
+  lateral; se cierra solo al tocar una opción, o tocando afuera.
+
 ## v1.2.1 — Link "Dashboard" en el menú del Super Admin
 
 - Faltaba una forma de volver al listado de locales desde Configuración.
