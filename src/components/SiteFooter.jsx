@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { LegalModal } from './LegalModal'
 import { PRIVACY_POLICY_TEXT, TERMS_TEXT } from '../lib/legalContent'
+import pkg from '../../package.json'
 
 export function SiteFooter({ className = '' }) {
   const [legalModal, setLegalModal] = useState(null) // 'privacy' | 'terms' | null
@@ -17,6 +18,8 @@ export function SiteFooter({ className = '' }) {
         </button>
         <span>·</span>
         <span>© {new Date().getFullYear()} C&R Soluciones Digitales</span>
+        <span>·</span>
+        <span>v{pkg.version}</span>
       </footer>
 
       <LegalModal

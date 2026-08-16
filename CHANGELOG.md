@@ -1,5 +1,16 @@
 # Changelog
 
+## v1.1.0 — Número de versión visible, logo del panel en el login, marca con tipografía propia
+
+- **Número de versión** ahora se ve en el pie de página de todas las
+  pantallas (se toma directo de `package.json`, no hay que actualizarlo a
+  mano en dos lados).
+- **Logo del login**: en el dominio raíz, ahora se usa el mismo logo que
+  cargaste en Configuración (antes se veía un ícono genérico). Más grande y
+  centrado.
+- **"ReparacioneStore"** con R mayúscula, y con una tipografía propia
+  (Space Grotesk) para que la marca se distinga del resto del texto.
+
 ## v1.0.0 — Imagen de login cargable desde Configuración
 
 - A partir de esta versión el versionado pasa a **1.0.0** (después de

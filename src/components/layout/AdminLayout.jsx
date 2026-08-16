@@ -34,7 +34,7 @@ export function AdminLayout() {
       <AdminSidebar logoDataUrl={settings.logoDataUrl} user={currentUser} onNewStore={() => setModalOpen(true)} onLogout={handleLogout} />
 
       <div className="flex min-w-0 flex-1 flex-col">
-        <Topbar title="reparacioneStore · Panel General" bannerDataUrl={settings.bannerDataUrl} />
+        <Topbar title="ReparacioneStore · Panel General" bannerDataUrl={settings.bannerDataUrl} />
         <main className="flex flex-1 flex-col overflow-y-auto p-4 sm:p-8">
           <div className="flex-1">
             <Outlet />

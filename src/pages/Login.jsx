@@ -76,7 +76,7 @@ export function Login() {
 
   const showingAdmin = isRootDomain && loginMode === 'admin'
 
-  const title = !isRootDomain ? store?.name : showingAdmin ? 'reparacioneStore · Administrador' : 'reparacioneStore'
+  const title = !isRootDomain ? store?.name : showingAdmin ? 'ReparacioneStore · Administrador' : 'ReparacioneStore'
   const tagline = !isRootDomain
     ? 'Tu nueva forma de gestionar el negocio: stock, ventas y reparaciones, todo en un solo lugar.'
     : showingAdmin
@@ -97,40 +97,45 @@ export function Login() {
 
       <div className="flex h-full w-full flex-col items-center justify-center overflow-y-auto px-6 py-12 md:w-1/2 md:px-12">
         <div className="w-full max-w-sm">
-          {isRootDomain && (
-            <div className="mb-6 flex rounded-lg border border-slate-200 bg-white p-1 text-sm">
-              <button
-                type="button"
-                onClick={() => setLoginMode('local')}
-                className={`flex-1 rounded-md py-1.5 font-medium transition-colors ${
-                  loginMode === 'local' ? 'bg-brand-600 text-white' : 'text-slate-500 hover:bg-slate-50'
-                }`}
-              >
-                Soy un local
-              </button>
-              <button
-                type="button"
-                onClick={() => setLoginMode('admin')}
-                className={`flex-1 rounded-md py-1.5 font-medium transition-colors ${
-                  loginMode === 'admin' ? 'bg-brand-600 text-white' : 'text-slate-500 hover:bg-slate-50'
-                }`}
-              >
-                Administrador
-              </button>
-            </div>
-          )}
-
-          <div className="mb-8">
-            <div className="mb-4 flex h-14 w-14 items-center justify-center overflow-hidden rounded-xl bg-brand-600 text-white">
+          <div className="mb-8 flex flex-col items-center text-center">
+            <div className="mb-5 flex h-20 w-20 items-center justify-center overflow-hidden rounded-2xl bg-brand-600 text-white shadow-sm">
               {!isRootDomain && store?.logoDataUrl ? (
-                <img src={store.logoDataUrl} alt={store.name} className="h-full w-full object-contain bg-white p-1" />
+                <img src={store.logoDataUrl} alt={store.name} className="h-full w-full object-contain bg-white p-1.5" />
+              ) : isRootDomain && settings.logoDataUrl ? (
+                <img src={settings.logoDataUrl} alt="Logo" className="h-full w-full object-contain bg-white p-1.5" />
               ) : showingAdmin ? (
-                <ShieldCheck size={28} />
+                <ShieldCheck size={36} />
               ) : (
-                <Store size={28} />
+                <Store size={36} />
               )}
             </div>
-            <h1 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">{title}</h1>
+
+            {isRootDomain && (
+              <div className="mb-5 flex w-full rounded-lg border border-slate-200 bg-white p-1 text-sm">
+                <button
+                  type="button"
+                  onClick={() => setLoginMode('local')}
+                  className={`flex-1 rounded-md py-1.5 font-medium transition-colors ${
+                    loginMode === 'local' ? 'bg-brand-600 text-white' : 'text-slate-500 hover:bg-slate-50'
+                  }`}
+                >
+                  Soy un local
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setLoginMode('admin')}
+                  className={`flex-1 rounded-md py-1.5 font-medium transition-colors ${
+                    loginMode === 'admin' ? 'bg-brand-600 text-white' : 'text-slate-500 hover:bg-slate-50'
+                  }`}
+                >
+                  Administrador
+                </button>
+              </div>
+            )}
+
+            <h1 className={`text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl ${isRootDomain ? 'font-brand' : ''}`}>
+              {title}
+            </h1>
             <p className="mt-2 text-sm text-slate-500">{tagline}</p>
           </div>
 

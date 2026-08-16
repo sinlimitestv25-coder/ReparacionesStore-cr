@@ -1,11 +1,11 @@
-# reparacioneStore
+# ReparacioneStore
 
 Sistema de gestión para venta y reparación de celulares. Multi-local
 (multi-tenant): un Super Admin crea y administra locales, y cada local entra
 por su propio subdominio a su propia gestión (stock, ventas, reparaciones,
 clientes, proveedores) sin ver los demás locales.
 
-**Versión actual: v1.0.0** — todo funciona con datos de demostración
+**Versión actual: v1.1.0** — todo funciona con datos de demostración
 guardados en el `localStorage` del navegador. Todavía no hay conexión a una
 base de datos real (Supabase se va a integrar en una versión posterior).
 
@@ -116,6 +116,11 @@ Configuración.
 
 Al iniciar sesión correctamente se ve una animación de carga (celulares
 "rotos" cayendo a un remolino, sale uno reparado) antes de entrar al panel.
+
+La marca "ReparacioneStore" usa una tipografía propia (Space Grotesk),
+cargada desde Google Fonts en `index.html` — necesita conexión a internet
+para verse (si no carga, cae en la fuente normal del sistema, no rompe
+nada).
 
 Credenciales de los usuarios de demostración (semilla inicial):
 

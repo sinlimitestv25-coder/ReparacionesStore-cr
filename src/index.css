@@ -6,6 +6,11 @@ body {
   font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
 }
 
+/* Tipografía distintiva solo para la marca "ReparacioneStore" */
+.font-brand {
+  font-family: 'Space Grotesk', 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
 /* Animación de carga (tornado de reparación) */
 @keyframes orbit-in {
   0% {
