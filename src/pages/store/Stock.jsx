@@ -19,6 +19,7 @@ export function Stock() {
   const { store } = useTenant()
   const storeId = store.id
   const { items: stock, create, update, remove } = useCollection('stock', (i) => i.storeId === storeId)
+  const { items: providers, create: createProvider } = useCollection('providers', (i) => i.storeId === storeId)
   const [modalOpen, setModalOpen] = useState(false)
   const [editing, setEditing] = useState(null)
   const [search, setSearch] = useState('')
@@ -50,6 +51,7 @@ export function Stock() {
   }
 
   const typeLabel = (value) => PRODUCT_TYPES.find((t) => t.value === value)?.label || value
+  const providerName = (id) => providers.find((p) => p.id === id)?.name || '-'
 
   return (
     <div className="space-y-4">
@@ -98,6 +100,7 @@ export function Stock() {
                 <Th>Producto</Th>
                 <Th>Tipo</Th>
                 <Th>SKU</Th>
+                <Th>Proveedor</Th>
                 <Th className="text-right">Costo</Th>
                 <Th className="text-right">Precio</Th>
                 <Th className="text-right">Cantidad</Th>
@@ -115,6 +118,7 @@ export function Stock() {
                   </Td>
                   <Td>{typeLabel(item.type)}</Td>
                   <Td className="text-slate-400">{item.sku || '-'}</Td>
+                  <Td className="text-slate-500">{providerName(item.providerId)}</Td>
                   <Td className="text-right">{formatCurrency(item.cost)}</Td>
                   <Td className="text-right">{formatCurrency(item.price)}</Td>
                   <Td className="text-right">
@@ -144,6 +148,8 @@ export function Stock() {
       <StockFormModal
         open={modalOpen}
         initialData={editing}
+        providers={providers}
+        onCreateProvider={(form) => createProvider({ ...form, storeId, createdAt: new Date().toISOString() })}
         onClose={() => {
           setModalOpen(false)
           setEditing(null)

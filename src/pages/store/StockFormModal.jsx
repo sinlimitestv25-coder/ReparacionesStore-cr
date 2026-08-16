@@ -1,20 +1,31 @@
 import { useEffect, useState } from 'react'
+import { Truck } from 'lucide-react'
 import { Modal } from '../../components/ui/Modal'
 import { Input } from '../../components/ui/Input'
 import { Select } from '../../components/ui/Select'
 import { Button } from '../../components/ui/Button'
 import { PRODUCT_TYPES } from '../../constants'
+import { ProviderFormModal } from './ProviderFormModal'
 
-const EMPTY_FORM = { type: 'celular', name: '', brand: '', model: '', sku: '', cost: '', price: '', quantity: '', minStock: '' }
+const EMPTY_FORM = { type: 'celular', name: '', brand: '', model: '', sku: '', cost: '', price: '', quantity: '', minStock: '', providerId: '' }
 
-export function StockFormModal({ open, onClose, onSubmit, initialData }) {
+export function StockFormModal({ open, onClose, onSubmit, initialData, providers, onCreateProvider }) {
   const [form, setForm] = useState(EMPTY_FORM)
+  const [newProviderOpen, setNewProviderOpen] = useState(false)
 
   useEffect(() => {
     if (open) setForm(initialData ? { ...EMPTY_FORM, ...initialData } : EMPTY_FORM)
   }, [open, initialData])
 
+  const providerOptions = [{ value: '', label: 'Sin proveedor asignado' }, ...providers.map((p) => ({ value: p.id, label: p.name }))]
+
   const handleChange = (field) => (e) => setForm((f) => ({ ...f, [field]: e.target.value }))
+
+  const handleCreateProvider = (providerForm) => {
+    const newProvider = onCreateProvider(providerForm)
+    setForm((f) => ({ ...f, providerId: newProvider.id }))
+    setNewProviderOpen(false)
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -51,6 +62,17 @@ export function StockFormModal({ open, onClose, onSubmit, initialData }) {
           <Input label="Modelo" value={form.model} onChange={handleChange('model')} />
         </div>
         <Input label="SKU / Código" value={form.sku} onChange={handleChange('sku')} />
+
+        <div className="flex items-end gap-2">
+          <div className="flex-1">
+            <Select label="Proveedor" options={providerOptions} value={form.providerId} onChange={handleChange('providerId')} />
+          </div>
+          <Button type="button" variant="secondary" onClick={() => setNewProviderOpen(true)}>
+            <Truck size={16} />
+            Nuevo proveedor
+          </Button>
+        </div>
+
         <div className="grid grid-cols-2 gap-3">
           <Input label="Costo" type="number" min="0" step="0.01" value={form.cost} onChange={handleChange('cost')} required />
           <Input label="Precio de venta" type="number" min="0" step="0.01" value={form.price} onChange={handleChange('price')} required />
@@ -60,6 +82,8 @@ export function StockFormModal({ open, onClose, onSubmit, initialData }) {
           <Input label="Stock mínimo" type="number" min="0" value={form.minStock} onChange={handleChange('minStock')} />
         </div>
       </form>
+
+      <ProviderFormModal open={newProviderOpen} onClose={() => setNewProviderOpen(false)} onSubmit={handleCreateProvider} />
     </Modal>
   )
 }

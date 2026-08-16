@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Plus, Pencil, Trash2, Wrench, FileText } from 'lucide-react'
+import { Plus, Pencil, Trash2, Wrench, FileText, MessageCircle } from 'lucide-react'
 import { useCollection } from '../../hooks/useCollection'
 import { useTenant } from '../../context/TenantContext'
 import { Card } from '../../components/ui/Card'
@@ -8,6 +8,7 @@ import { Select } from '../../components/ui/Select'
 import { EmptyState } from '../../components/ui/EmptyState'
 import { Table, Thead, Tbody, Th, Td } from '../../components/ui/Table'
 import { formatCurrency, formatDate } from '../../lib/format'
+import { buildWhatsAppUrl } from '../../lib/whatsapp'
 import { REPAIR_STATUSES } from '../../constants'
 import { RepairFormModal } from './RepairFormModal'
 import { ReceiptModal } from './ReceiptModal'
@@ -26,6 +27,11 @@ export function Repairs() {
 
   const clientOf = (id) => clients.find((c) => c.id === id)
   const clientName = (id) => clientOf(id)?.name || 'Cliente eliminado'
+  const repairWhatsAppUrl = (repair) =>
+    buildWhatsAppUrl(
+      clientOf(repair.clientId)?.phone,
+      `Hola! Te escribo por la reparación de tu ${repair.deviceBrand} ${repair.deviceModel}.`
+    )
 
   const filtered = statusFilter ? repairs.filter((r) => r.status === statusFilter) : repairs
   const sorted = [...filtered].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
@@ -122,6 +128,20 @@ export function Repairs() {
                   <Td className="text-right">{formatCurrency(repair.finalCost ?? repair.estimatedCost)}</Td>
                   <Td className="text-right">
                     <div className="flex justify-end gap-1">
+                      <a
+                        href={repairWhatsAppUrl(repair) || undefined}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        title={repairWhatsAppUrl(repair) ? 'Escribir por WhatsApp' : 'El cliente no tiene teléfono cargado'}
+                        aria-disabled={!repairWhatsAppUrl(repair)}
+                        className={`rounded-md p-1.5 ${
+                          repairWhatsAppUrl(repair)
+                            ? 'text-slate-400 hover:bg-emerald-50 hover:text-emerald-600'
+                            : 'pointer-events-none text-slate-200'
+                        }`}
+                      >
+                        <MessageCircle size={15} />
+                      </a>
                       <button
                         onClick={() => setReceiptRepair(repair)}
                         title="Recibo"

@@ -41,6 +41,8 @@ export function AppLayout() {
         bannerDataUrl={store.bannerDataUrl}
         onLogoChange={(logoDataUrl) => updateStore({ logoDataUrl })}
         onBannerChange={(bannerDataUrl) => updateStore({ bannerDataUrl })}
+        intakeTerms={store.intakeTerms}
+        onIntakeTermsChange={(intakeTerms) => updateStore({ intakeTerms })}
         repairTerms={store.repairTerms}
         onRepairTermsChange={(repairTerms) => updateStore({ repairTerms })}
         onChangePassword={changePassword}

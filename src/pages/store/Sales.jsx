@@ -20,7 +20,10 @@ export function Sales() {
   const { items: clients } = useCollection('clients', (i) => i.storeId === storeId)
   const [modalOpen, setModalOpen] = useState(false)
 
-  const clientName = (id) => clients.find((c) => c.id === id)?.name || 'Cliente ocasional'
+  const saleClientLabel = (sale) => {
+    if (sale.clientId) return clients.find((c) => c.id === sale.clientId)?.name || 'Cliente eliminado'
+    return sale.clientName || 'Cliente ocasional'
+  }
   const paymentLabel = (value) => PAYMENT_METHODS.find((p) => p.value === value)?.label || value
 
   const handleSubmit = (sale) => {
@@ -77,7 +80,7 @@ export function Sales() {
               {sortedSales.map((sale) => (
                 <tr key={sale.id}>
                   <Td>{formatDate(sale.date)}</Td>
-                  <Td>{clientName(sale.clientId)}</Td>
+                  <Td>{saleClientLabel(sale)}</Td>
                   <Td className="max-w-xs">{sale.items.map((i) => `${i.qty}x ${i.name}`).join(', ')}</Td>
                   <Td>
                     <Badge>{paymentLabel(sale.paymentMethod)}</Badge>

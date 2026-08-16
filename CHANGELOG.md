@@ -1,5 +1,23 @@
 # Changelog
 
+## v0.8.0 — Proveedores en stock, ventas sin registrar, WhatsApp, doble recibo
+
+- **Stock**: cada producto se puede vincular a un proveedor ya cargado, o
+  crear uno nuevo sin salir del formulario.
+- **Ventas**: se sacó el "cliente ocasional" genérico — ahora, si no elegís
+  un cliente registrado, podés escribirle un nombre rápido (sin necesidad de
+  teléfono ni registro completo).
+- **WhatsApp**: nuevo botón en Reparaciones y Proveedores que abre WhatsApp
+  con el número ya cargado.
+- **Dos recibos**: además del recibo de egreso/garantía que ya existía, se
+  agregó el **recibo de ingreso** (declaración del estado del equipo al
+  dejarlo). Cada uno tiene su propia política editable desde Configuración,
+  y el modal de recibo tiene pestañas para elegir cuál generar.
+- **Configuración**: el modal ahora es más ancho.
+- **Footer legal**: en el login, links a "Política de privacidad" y
+  "Términos y condiciones" con texto de referencia genérico (aclarado que
+  no reemplaza asesoramiento legal real).
+
 ## v0.7.0 — Login unificado (admin o local) + reorganización de banner/sidebar
 
 - **Login unificado**: desde el dominio raíz ahora se puede elegir "Soy un

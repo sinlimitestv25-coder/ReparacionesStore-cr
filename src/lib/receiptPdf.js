@@ -1,6 +1,6 @@
 import { jsPDF } from 'jspdf'
 import { formatCurrency, formatDate } from './format'
-import { DEFAULT_REPAIR_TERMS } from '../constants'
+import { DEFAULT_REPAIR_TERMS, DEFAULT_INTAKE_TERMS } from '../constants'
 
 const MARGIN = 15
 const PAGE_WIDTH = 210
@@ -19,7 +19,8 @@ function ensureSpace(doc, y, needed) {
   return y
 }
 
-export function buildReceiptDoc({ store, repair, client }) {
+export function buildReceiptDoc({ store, repair, client, mode = 'egreso' }) {
+  const isIngreso = mode === 'ingreso'
   const doc = new jsPDF({ unit: 'mm', format: 'a4' })
   let y = MARGIN
 
@@ -45,7 +46,7 @@ export function buildReceiptDoc({ store, repair, client }) {
 
   doc.setFont('helvetica', 'bold')
   doc.setFontSize(13)
-  doc.text('RECIBO DE INGRESO · REPARACIÓN', MARGIN, y)
+  doc.text(isIngreso ? 'RECIBO DE INGRESO · REPARACIÓN' : 'RECIBO DE EGRESO · GARANTÍA', MARGIN, y)
   doc.setFontSize(10)
   doc.text(`N.º ${ticketNumber(repair)}`, PAGE_WIDTH - MARGIN, y, { align: 'right' })
   y += 6
@@ -70,7 +71,10 @@ export function buildReceiptDoc({ store, repair, client }) {
   y += 2
   row('Equipo', `${repair.deviceBrand || ''} ${repair.deviceModel || ''}`.trim())
   row('Técnico asignado', repair.technician)
-  row('Costo estimado', formatCurrency(repair.estimatedCost))
+  row(
+    isIngreso ? 'Costo estimado' : 'Costo final',
+    formatCurrency(isIngreso ? repair.estimatedCost : repair.finalCost ?? repair.estimatedCost)
+  )
   y += 2
 
   doc.setFont('helvetica', 'bold')
@@ -89,13 +93,15 @@ export function buildReceiptDoc({ store, repair, client }) {
 
   doc.setFont('helvetica', 'bold')
   doc.setFontSize(11)
-  doc.text('Política y garantía', MARGIN, y)
+  doc.text(isIngreso ? 'Declaración de estado y política de ingreso' : 'Política y garantía', MARGIN, y)
   y += 6
 
   doc.setFont('helvetica', 'normal')
   doc.setFontSize(8.5)
   doc.setTextColor(60)
-  const terms = store.repairTerms || DEFAULT_REPAIR_TERMS
+  const defaultTerms = isIngreso ? DEFAULT_INTAKE_TERMS : DEFAULT_REPAIR_TERMS
+  const storedTerms = isIngreso ? store.intakeTerms : store.repairTerms
+  const terms = storedTerms || defaultTerms
   const paragraphs = terms.split('\n').filter((p) => p.trim() !== '')
   paragraphs.forEach((paragraph) => {
     const lines = doc.splitTextToSize(paragraph, CONTENT_WIDTH)
@@ -121,7 +127,8 @@ export function buildReceiptDoc({ store, repair, client }) {
 
 export function downloadReceiptPdf(params) {
   const doc = buildReceiptDoc(params)
-  doc.save(`recibo-${ticketNumber(params.repair)}.pdf`)
+  const mode = params.mode === 'ingreso' ? 'ingreso' : 'egreso'
+  doc.save(`recibo-${mode}-${ticketNumber(params.repair)}.pdf`)
 }
 
 export function getReceiptPdfBlob(params) {

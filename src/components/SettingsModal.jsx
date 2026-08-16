@@ -4,7 +4,7 @@ import { Modal } from './ui/Modal'
 import { Input, Textarea } from './ui/Input'
 import { Button } from './ui/Button'
 import { compressImage } from '../lib/image'
-import { DEFAULT_REPAIR_TERMS } from '../constants'
+import { DEFAULT_REPAIR_TERMS, DEFAULT_INTAKE_TERMS } from '../constants'
 
 const MAX_UPLOAD_BYTES = 4 * 1024 * 1024 // archivo que aceptamos del selector, antes de comprimir
 
@@ -81,6 +81,8 @@ export function SettingsModal({
   bannerDataUrl,
   onLogoChange,
   onBannerChange,
+  intakeTerms,
+  onIntakeTermsChange,
   repairTerms,
   onRepairTermsChange,
   onChangePassword,
@@ -90,11 +92,16 @@ export function SettingsModal({
   const [passwordError, setPasswordError] = useState('')
   const [passwordMessage, setPasswordMessage] = useState('')
 
+  const [intakeDraft, setIntakeDraft] = useState('')
+  const [intakeMessage, setIntakeMessage] = useState('')
   const [termsDraft, setTermsDraft] = useState('')
   const [termsMessage, setTermsMessage] = useState('')
 
   useEffect(() => {
-    if (open) setTermsDraft(repairTerms || DEFAULT_REPAIR_TERMS)
+    if (open) {
+      setIntakeDraft(intakeTerms || DEFAULT_INTAKE_TERMS)
+      setTermsDraft(repairTerms || DEFAULT_REPAIR_TERMS)
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open])
 
@@ -103,8 +110,16 @@ export function SettingsModal({
     setConfirmPassword('')
     setPasswordError('')
     setPasswordMessage('')
+    setIntakeMessage('')
     setTermsMessage('')
     onClose()
+  }
+
+  const handleIntakeSubmit = (e) => {
+    e.preventDefault()
+    onIntakeTermsChange(intakeDraft)
+    setIntakeMessage('Política guardada.')
+    setTimeout(() => setIntakeMessage(''), 2500)
   }
 
   const handleTermsSubmit = (e) => {
@@ -133,7 +148,7 @@ export function SettingsModal({
   }
 
   return (
-    <Modal open={open} onClose={handleClose} title="Configuración">
+    <Modal open={open} onClose={handleClose} title="Configuración" size="lg">
       <div className="space-y-6">
         <ImageUploadRow
           label="Logo"
@@ -153,14 +168,29 @@ export function SettingsModal({
           onChange={onBannerChange}
         />
 
+        {onIntakeTermsChange && (
+          <form onSubmit={handleIntakeSubmit} className="space-y-2 border-t border-slate-100 pt-4">
+            <p className="text-sm font-semibold text-slate-800">Política de ingreso</p>
+            <p className="text-xs text-slate-400">
+              Va en el recibo que firma el cliente cuando deja el equipo: en qué estado lo declara, qué autoriza. Editalo
+              como te sirva a vos.
+            </p>
+            <Textarea value={intakeDraft} onChange={(e) => setIntakeDraft(e.target.value)} rows={6} className="text-xs" />
+            {intakeMessage && <p className="text-xs text-emerald-600">{intakeMessage}</p>}
+            <Button type="submit" size="sm">
+              Guardar política
+            </Button>
+          </form>
+        )}
+
         {onRepairTermsChange && (
           <form onSubmit={handleTermsSubmit} className="space-y-2 border-t border-slate-100 pt-4">
-            <p className="text-sm font-semibold text-slate-800">Política de reparaciones</p>
+            <p className="text-sm font-semibold text-slate-800">Política de egreso (garantía)</p>
             <p className="text-xs text-slate-400">
-              Este texto aparece en el recibo que le das al cliente cuando dejás su equipo (plazos, garantía, daños
-              preexistentes, etc.). Editalo como te sirva a vos.
+              Va en el recibo que le das al cliente cuando retira el equipo reparado: plazos, garantía, qué no cubre.
+              Editalo como te sirva a vos.
             </p>
-            <Textarea value={termsDraft} onChange={(e) => setTermsDraft(e.target.value)} rows={7} className="text-xs" />
+            <Textarea value={termsDraft} onChange={(e) => setTermsDraft(e.target.value)} rows={6} className="text-xs" />
             {termsMessage && <p className="text-xs text-emerald-600">{termsMessage}</p>}
             <Button type="submit" size="sm">
               Guardar política

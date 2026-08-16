@@ -5,7 +5,7 @@ Sistema de gestión para venta y reparación de celulares. Multi-local
 por su propio subdominio a su propia gestión (stock, ventas, reparaciones,
 clientes, proveedores) sin ver los demás locales.
 
-**Versión actual: v0.7.0** — todo funciona con datos de demostración
+**Versión actual: v0.8.0** — todo funciona con datos de demostración
 guardados en el `localStorage` del navegador. Todavía no hay conexión a una
 base de datos real (Supabase se va a integrar en una versión posterior).
 
@@ -131,13 +131,19 @@ Credenciales de los usuarios de demostración (semilla inicial):
   credenciales seed), usá el botón "Restablecer datos de demostración" en el
   login.
 
-## Recibo de ingreso (reparaciones)
+## Recibos (reparaciones)
 
-Cada reparación tiene un botón "Recibo" (ícono de hoja) que arma un PDF con
-los datos del equipo, el cliente, el costo estimado y la **política del
-local** (plazos, garantía, daños preexistentes). Esa política se edita por
-local desde Configuración → "Política de reparaciones", con un texto
-sugerido por defecto que podés cambiar como quieras.
+Cada reparación tiene un botón "Recibo" (ícono de hoja) que arma un PDF, con
+dos pestañas:
+
+- **Ingreso**: para cuando el cliente deja el equipo — declara en qué
+  estado lo entrega (golpes, humedad, etc.) y qué autoriza.
+- **Egreso · Garantía**: para cuando el cliente lo retira reparado — plazos
+  de garantía, qué cubre y qué no.
+
+Cada uno tiene su propia política de texto, editable por local desde
+Configuración ("Política de ingreso" / "Política de egreso (garantía)"),
+con un texto sugerido por defecto que podés cambiar como quieras.
 
 Desde ese mismo recibo podés:
 

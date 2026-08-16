@@ -7,6 +7,8 @@ import { resetDB } from '../lib/db'
 import { Button } from '../components/ui/Button'
 import { Input } from '../components/ui/Input'
 import { RepairIllustration } from '../components/auth/RepairIllustration'
+import { LegalModal } from '../components/LegalModal'
+import { PRIVACY_POLICY_TEXT, TERMS_TEXT } from '../lib/legalContent'
 
 export function Login() {
   const { currentUser, login, logout } = useAuth()
@@ -16,6 +18,7 @@ export function Login() {
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [resetMessage, setResetMessage] = useState('')
+  const [legalModal, setLegalModal] = useState(null) // 'privacy' | 'terms' | null
 
   // La sesión guardada solo es válida si corresponde a este dominio: en un
   // subdominio, solo el dueño de ESE local; en el dominio raíz, tanto el
@@ -126,8 +129,28 @@ export function Login() {
             </Button>
             {resetMessage && <p className="text-xs text-emerald-600">{resetMessage}</p>}
           </div>
+
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-xs text-slate-400">
+            <button type="button" onClick={() => setLegalModal('privacy')} className="hover:text-slate-600 hover:underline">
+              Política de privacidad
+            </button>
+            <span>·</span>
+            <button type="button" onClick={() => setLegalModal('terms')} className="hover:text-slate-600 hover:underline">
+              Términos y condiciones
+            </button>
+            <span>·</span>
+            <span>© {new Date().getFullYear()} reparacioneStore</span>
+          </div>
         </div>
       </div>
+
+      <LegalModal
+        open={legalModal === 'privacy'}
+        onClose={() => setLegalModal(null)}
+        title="Política de privacidad"
+        content={PRIVACY_POLICY_TEXT}
+      />
+      <LegalModal open={legalModal === 'terms'} onClose={() => setLegalModal(null)} title="Términos y condiciones" content={TERMS_TEXT} />
     </div>
   )
 }

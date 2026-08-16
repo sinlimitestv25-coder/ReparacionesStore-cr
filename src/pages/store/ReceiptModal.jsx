@@ -5,17 +5,19 @@ import { Button } from '../../components/ui/Button'
 import { Input } from '../../components/ui/Input'
 import { formatCurrency, formatDate } from '../../lib/format'
 import { downloadReceiptPdf, getReceiptPdfBlob, ticketNumber } from '../../lib/receiptPdf'
-import { DEFAULT_REPAIR_TERMS } from '../../constants'
+import { DEFAULT_REPAIR_TERMS, DEFAULT_INTAKE_TERMS } from '../../constants'
 
 const canNativeShareFiles = typeof navigator !== 'undefined' && !!navigator.share
 
 export function ReceiptModal({ open, onClose, repair, client, store }) {
+  const [mode, setMode] = useState('ingreso')
   const [phone, setPhone] = useState('')
   const [shareError, setShareError] = useState('')
   const [sharing, setSharing] = useState(false)
 
   useEffect(() => {
     if (open) {
+      setMode('ingreso')
       setPhone(client?.phone || '')
       setShareError('')
     }
@@ -23,7 +25,13 @@ export function ReceiptModal({ open, onClose, repair, client, store }) {
 
   if (!repair) return null
 
-  const handleDownload = () => downloadReceiptPdf({ store, repair, client })
+  const isIngreso = mode === 'ingreso'
+  const modeLabel = isIngreso ? 'Recibo de ingreso' : 'Recibo de egreso · Garantía'
+  const terms = (isIngreso ? store.intakeTerms : store.repairTerms) || (isIngreso ? DEFAULT_INTAKE_TERMS : DEFAULT_REPAIR_TERMS)
+  const costLabel = isIngreso ? 'Costo estimado' : 'Costo final'
+  const costValue = isIngreso ? repair.estimatedCost : repair.finalCost ?? repair.estimatedCost
+
+  const handleDownload = () => downloadReceiptPdf({ store, repair, client, mode })
 
   const handlePrint = () => window.print()
 
@@ -34,7 +42,7 @@ export function ReceiptModal({ open, onClose, repair, client, store }) {
       return
     }
     setShareError('')
-    const message = `Hola! Te paso el recibo de ingreso N.º ${ticketNumber(repair)} de tu equipo (${repair.deviceBrand} ${repair.deviceModel}) en ${store.name}. Te adjunto el PDF con los detalles y la garantía.`
+    const message = `Hola! Te paso el ${modeLabel.toLowerCase()} N.º ${ticketNumber(repair)} de tu equipo (${repair.deviceBrand} ${repair.deviceModel}) en ${store.name}. Te adjunto el PDF con los detalles.`
     window.open(`https://wa.me/${digits}?text=${encodeURIComponent(message)}`, '_blank', 'noopener')
   }
 
@@ -42,10 +50,10 @@ export function ReceiptModal({ open, onClose, repair, client, store }) {
     setShareError('')
     setSharing(true)
     try {
-      const blob = getReceiptPdfBlob({ store, repair, client })
-      const file = new File([blob], `recibo-${ticketNumber(repair)}.pdf`, { type: 'application/pdf' })
+      const blob = getReceiptPdfBlob({ store, repair, client, mode })
+      const file = new File([blob], `recibo-${mode}-${ticketNumber(repair)}.pdf`, { type: 'application/pdf' })
       if (navigator.canShare && navigator.canShare({ files: [file] })) {
-        await navigator.share({ files: [file], title: `Recibo ${ticketNumber(repair)}`, text: `Recibo de ingreso - ${store.name}` })
+        await navigator.share({ files: [file], title: `${modeLabel} ${ticketNumber(repair)}`, text: `${modeLabel} - ${store.name}` })
       } else {
         setShareError('Este navegador no permite adjuntar el archivo directo. Descargá el PDF y compartilo manualmente.')
       }
@@ -57,7 +65,28 @@ export function ReceiptModal({ open, onClose, repair, client, store }) {
   }
 
   return (
-    <Modal open={open} onClose={onClose} title="Recibo de ingreso" size="lg">
+    <Modal open={open} onClose={onClose} title="Recibo" size="lg">
+      <div className="mb-4 flex rounded-lg border border-slate-200 bg-slate-50 p-1 text-sm">
+        <button
+          type="button"
+          onClick={() => setMode('ingreso')}
+          className={`flex-1 rounded-md py-1.5 font-medium transition-colors ${
+            isIngreso ? 'bg-white text-slate-800 shadow-sm' : 'text-slate-500 hover:text-slate-700'
+          }`}
+        >
+          Ingreso
+        </button>
+        <button
+          type="button"
+          onClick={() => setMode('egreso')}
+          className={`flex-1 rounded-md py-1.5 font-medium transition-colors ${
+            !isIngreso ? 'bg-white text-slate-800 shadow-sm' : 'text-slate-500 hover:text-slate-700'
+          }`}
+        >
+          Egreso · Garantía
+        </button>
+      </div>
+
       <div id="receipt-print" className="rounded-lg border border-slate-200 bg-white p-6 text-sm text-slate-800">
         <div className="flex items-start justify-between border-b border-slate-200 pb-3">
           <div>
@@ -70,7 +99,7 @@ export function ReceiptModal({ open, onClose, repair, client, store }) {
           </div>
         </div>
 
-        <p className="mt-4 text-sm font-bold uppercase tracking-wide">Recibo de ingreso · Reparación</p>
+        <p className="mt-4 text-sm font-bold uppercase tracking-wide">{modeLabel}</p>
 
         <dl className="mt-3 grid grid-cols-2 gap-x-4 gap-y-2 text-xs">
           <div>
@@ -92,8 +121,8 @@ export function ReceiptModal({ open, onClose, repair, client, store }) {
             <dd className="font-medium">{repair.technician || '-'}</dd>
           </div>
           <div>
-            <dt className="text-slate-400">Costo estimado</dt>
-            <dd className="font-medium">{formatCurrency(repair.estimatedCost)}</dd>
+            <dt className="text-slate-400">{costLabel}</dt>
+            <dd className="font-medium">{formatCurrency(costValue)}</dd>
           </div>
         </dl>
 
@@ -103,10 +132,10 @@ export function ReceiptModal({ open, onClose, repair, client, store }) {
         </div>
 
         <div className="mt-4 border-t border-slate-200 pt-3">
-          <p className="text-xs font-semibold text-slate-700">Política y garantía</p>
-          <p className="mt-1 whitespace-pre-line text-[11px] leading-relaxed text-slate-500">
-            {store.repairTerms || DEFAULT_REPAIR_TERMS}
+          <p className="text-xs font-semibold text-slate-700">
+            {isIngreso ? 'Declaración de estado y política de ingreso' : 'Política y garantía'}
           </p>
+          <p className="mt-1 whitespace-pre-line text-[11px] leading-relaxed text-slate-500">{terms}</p>
         </div>
 
         <div className="mt-8 grid grid-cols-2 gap-8 text-center text-[10px] text-slate-400">

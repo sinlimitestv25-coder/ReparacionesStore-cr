@@ -29,3 +29,11 @@ El diagnóstico inicial es una estimación; el presupuesto final puede variar un
 No nos responsabilizamos por daños preexistentes no declarados en este recibo (golpes, quiebres, humedad, pantalla trizada, etc.) ni por la pérdida de datos guardados en el equipo. Se recomienda hacer una copia de seguridad antes de dejarlo.
 
 La garantía de la reparación cubre exclusivamente el trabajo y los repuestos provistos por este local, por 90 días desde la entrega, y no cubre golpes, humedad ni intervención de terceros posteriores a la entrega.`
+
+export const DEFAULT_INTAKE_TERMS = `El cliente declara que el equipo se entrega en las condiciones descriptas en este recibo (ver "Problema reportado") y que no existen daños, golpes, quiebres ni humedad adicionales a los aquí mencionados.
+
+El diagnóstico definitivo puede variar una vez abierto el equipo. En ese caso, se le va a informar el presupuesto final antes de avanzar con la reparación.
+
+El local no se responsabiliza por datos guardados en el equipo (fotos, contactos, aplicaciones, etc.). Se recomienda hacer una copia de seguridad antes de dejarlo.
+
+Con la firma de este recibo, el cliente confirma estar de acuerdo con lo aquí declarado y autoriza a realizar el diagnóstico del equipo.`

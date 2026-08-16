@@ -11,9 +11,10 @@ export function SaleFormModal({ open, onClose, onSubmit, products, clients }) {
   const [search, setSearch] = useState('')
   const [cart, setCart] = useState([])
   const [clientId, setClientId] = useState('')
+  const [clientName, setClientName] = useState('')
   const [paymentMethod, setPaymentMethod] = useState(PAYMENT_METHODS[0].value)
 
-  const clientOptions = [{ value: '', label: 'Cliente ocasional (sin registrar)' }, ...clients.map((c) => ({ value: c.id, label: c.name }))]
+  const clientOptions = [{ value: '', label: 'Sin cliente registrado' }, ...clients.map((c) => ({ value: c.id, label: c.name }))]
 
   const filteredProducts = useMemo(
     () => products.filter((p) => p.name.toLowerCase().includes(search.toLowerCase()) && p.quantity > 0),
@@ -47,6 +48,7 @@ export function SaleFormModal({ open, onClose, onSubmit, products, clients }) {
     setCart([])
     setSearch('')
     setClientId('')
+    setClientName('')
     setPaymentMethod(PAYMENT_METHODS[0].value)
   }
 
@@ -59,6 +61,7 @@ export function SaleFormModal({ open, onClose, onSubmit, products, clients }) {
     if (cart.length === 0) return
     onSubmit({
       clientId: clientId || null,
+      clientName: clientId ? null : clientName.trim() || null,
       paymentMethod,
       items: cart.map(({ maxQty, ...item }) => item),
       total,
@@ -130,6 +133,14 @@ export function SaleFormModal({ open, onClose, onSubmit, products, clients }) {
           </div>
 
           <Select label="Cliente" options={clientOptions} value={clientId} onChange={(e) => setClientId(e.target.value)} />
+          {!clientId && (
+            <Input
+              label="Nombre (opcional, si no está registrado)"
+              value={clientName}
+              onChange={(e) => setClientName(e.target.value)}
+              placeholder="Ej: Juancito"
+            />
+          )}
           <Select label="Método de pago" options={PAYMENT_METHODS} value={paymentMethod} onChange={(e) => setPaymentMethod(e.target.value)} />
 
           <div className="flex items-center justify-between rounded-lg bg-slate-50 px-3 py-2 text-sm">
