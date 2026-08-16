@@ -1,5 +1,18 @@
 # Changelog
 
+## v0.9.0 — Configuración como módulo propio + footer en todas las pantallas
+
+- **Configuración** dejó de ser un modal: ahora es un módulo más en el menú
+  lateral (`/configuracion`), tanto en el panel de cada local como en el
+  del Super Admin (`/superadmin/configuracion`). Deja mucho más espacio
+  para las políticas de recibo y lo que se vaya sumando más adelante.
+- El Super Admin ahora también tiene sub-rutas propias (antes era una sola
+  pantalla): el listado de locales y la configuración son módulos
+  separados, con su propio layout.
+- **Footer** (política de privacidad, términos y condiciones, copyright) en
+  el pie de todas las pantallas — antes solo estaba en el login.
+- Copyright actualizado a **"© 2026 S&R Soluciones Digitales"**.
+
 ## v0.8.0 — Proveedores en stock, ventas sin registrar, WhatsApp, doble recibo
 
 - **Stock**: cada producto se puede vincular a un proveedor ya cargado, o

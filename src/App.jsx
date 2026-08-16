@@ -2,7 +2,9 @@ import { Routes, Route, Navigate } from 'react-router-dom'
 import { useTenant } from './context/TenantContext'
 import { Login } from './pages/Login'
 import { TenantNotFound } from './pages/TenantNotFound'
-import { StoresDashboard } from './pages/superadmin/StoresDashboard'
+import { AdminLayout } from './components/layout/AdminLayout'
+import { AdminStores } from './pages/superadmin/AdminStores'
+import { AdminSettings } from './pages/superadmin/AdminSettings'
 import { AppLayout } from './components/layout/AppLayout'
 import { Dashboard } from './pages/store/Dashboard'
 import { Stock } from './pages/store/Stock'
@@ -10,6 +12,7 @@ import { Sales } from './pages/store/Sales'
 import { Repairs } from './pages/store/Repairs'
 import { Clients } from './pages/store/Clients'
 import { Providers } from './pages/store/Providers'
+import { Settings } from './pages/store/Settings'
 import { ProtectedRoute } from './router/ProtectedRoute'
 
 // Un solo árbol de rutas: en un subdominio de local, solo esas rutas de
@@ -32,10 +35,13 @@ export default function App() {
         path="/superadmin"
         element={
           <ProtectedRoute requireSuperAdmin>
-            <StoresDashboard />
+            <AdminLayout />
           </ProtectedRoute>
         }
-      />
+      >
+        <Route index element={<AdminStores />} />
+        <Route path="configuracion" element={<AdminSettings />} />
+      </Route>
 
       <Route
         element={
@@ -50,6 +56,7 @@ export default function App() {
         <Route path="/reparaciones" element={<Repairs />} />
         <Route path="/clientes" element={<Clients />} />
         <Route path="/proveedores" element={<Providers />} />
+        <Route path="/configuracion" element={<Settings />} />
       </Route>
 
       <Route path="*" element={<Navigate to="/login" replace />} />
