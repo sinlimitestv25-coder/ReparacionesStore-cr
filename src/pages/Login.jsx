@@ -7,7 +7,10 @@ import { resetDB } from '../lib/db'
 import { Button } from '../components/ui/Button'
 import { Input } from '../components/ui/Input'
 import { RepairIllustration } from '../components/auth/RepairIllustration'
+import { LoadingScreen } from '../components/auth/LoadingScreen'
 import { SiteFooter } from '../components/SiteFooter'
+
+const LOADING_MS = 2200
 
 export function Login() {
   const { currentUser, login, logout } = useAuth()
@@ -17,6 +20,8 @@ export function Login() {
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [resetMessage, setResetMessage] = useState('')
+  const [photoFailed, setPhotoFailed] = useState(false)
+  const [readyToEnter, setReadyToEnter] = useState(false)
 
   // La sesión guardada solo es válida si corresponde a este dominio: en un
   // subdominio, solo el dueño de ESE local; en el dominio raíz, tanto el
@@ -36,7 +41,18 @@ export function Login() {
     }
   }, [currentUser, isValidSessionHere, logout])
 
+  // Apenas la sesión queda válida, se muestra la animación de carga un
+  // ratito antes de entrar de verdad al panel.
+  useEffect(() => {
+    if (isValidSessionHere) {
+      const t = setTimeout(() => setReadyToEnter(true), LOADING_MS)
+      return () => clearTimeout(t)
+    }
+    setReadyToEnter(false)
+  }, [isValidSessionHere])
+
   if (isValidSessionHere) {
+    if (!readyToEnter) return <LoadingScreen />
     return <Navigate to={currentUser.role === 'super_admin' ? '/superadmin' : '/dashboard'} replace />
   }
 
@@ -68,7 +84,16 @@ export function Login() {
   return (
     <div className="flex h-screen bg-slate-50">
       <div className="hidden w-1/2 md:block">
-        <RepairIllustration className="h-full w-full" />
+        {!photoFailed ? (
+          <img
+            src="/login-bench.jpg"
+            alt=""
+            className="h-full w-full object-cover"
+            onError={() => setPhotoFailed(true)}
+          />
+        ) : (
+          <RepairIllustration className="h-full w-full" />
+        )}
       </div>
 
       <div className="flex h-full w-full flex-col items-center justify-center overflow-y-auto px-6 py-12 md:w-1/2 md:px-12">

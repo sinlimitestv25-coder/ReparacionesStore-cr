@@ -6,6 +6,61 @@ body {
   font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
 }
 
+/* Animación de carga (tornado de reparación) */
+@keyframes orbit-in {
+  0% {
+    transform: translate(-50%, -50%) translateX(var(--orbit-radius, 120px)) rotate(0deg) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) translateX(0px) rotate(560deg) scale(0.1);
+    opacity: 0;
+  }
+}
+
+.animate-orbit-in {
+  animation: orbit-in 1.15s cubic-bezier(0.6, 0, 0.85, 0.35) forwards;
+}
+
+@keyframes new-phone-pop {
+  0% {
+    transform: scale(0.2) rotate(-15deg);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.15) rotate(4deg);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+.animate-new-phone-pop {
+  animation: new-phone-pop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes sparkle-pop {
+  0%,
+  40% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  70% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+}
+
+.animate-sparkle {
+  animation: sparkle-pop 0.7s ease-out forwards;
+}
+
 @media print {
   body * {
     visibility: hidden;

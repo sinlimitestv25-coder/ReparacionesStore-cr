@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.10.0 — Foto propia en el login + animación de carga al entrar
+
+- **Foto del login preparada**: guardá tu imagen como `public/login-bench.jpg`
+  y aparece sola, sin tocar código. Si no está el archivo, se ve la
+  ilustración de respaldo (no rompe nada).
+- **Animación de carga** al iniciar sesión: celulares "rotos" caen hacia un
+  remolino y sale un celular reparado, antes de entrar al panel.
+
 ## v0.9.1 — Ajustes: nombre correcto, labels más claros, tarjetas y menú más grandes
 
 - Corregido el copyright: **C&R Soluciones Digitales** (no S&R).

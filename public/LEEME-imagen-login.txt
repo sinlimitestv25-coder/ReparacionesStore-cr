@@ -1,0 +1,10 @@
+Para usar tu propia foto en la pantalla de login:
+
+1. Guardá la imagen en esta misma carpeta (public/) con el nombre exacto:
+   login-bench.jpg
+
+2. Listo. Se muestra sola, sin tocar código. Si no está el archivo, se ve
+   la ilustración de respaldo.
+
+Podés borrar este archivo de texto cuando ya no lo necesites, no afecta
+nada del sistema.
